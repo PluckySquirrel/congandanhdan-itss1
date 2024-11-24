@@ -1,4 +1,4 @@
-package com.hust.soict.japango;
+package vn.edu.hust.soict.japango;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.hust.soict.japango;
+package vn.edu.hust.soict.japango;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
