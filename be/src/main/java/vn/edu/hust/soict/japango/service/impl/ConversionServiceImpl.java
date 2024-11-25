@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import vn.edu.hust.soict.japango.common.enums.Prompt;
 import vn.edu.hust.soict.japango.dto.conversion.InputDTO;
 import vn.edu.hust.soict.japango.dto.conversion.OutputDTO;
+import vn.edu.hust.soict.japango.exception.CustomExceptions;
 import vn.edu.hust.soict.japango.service.ConversionService;
 import vn.edu.hust.soict.japango.service.LanguageModelService;
 
@@ -17,6 +18,10 @@ public class ConversionServiceImpl implements ConversionService {
 
     @Override
     public OutputDTO expressIntent(InputDTO inputDTO) {
+        if (inputDTO == null || inputDTO.getInput() == null || inputDTO.getInput().isEmpty()) {
+            throw CustomExceptions.INPUT_IS_EMPTY_EXCEPTION;
+        }
+
         String text = Prompt.EXPRESS_INTENT_PROMPT.apply(inputDTO.getInput());
         String result = languageModelService.generateContent(text);
         return OutputDTO.builder().output(result).build();
