@@ -1,5 +1,6 @@
 package vn.edu.hust.soict.japango.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +19,17 @@ public class ConversionController {
     private final ConversionService conversionService;
 
     @PostMapping("/express-intent")
-    public ResponseEntity<OutputDTO> expressIntent(@RequestBody InputDTO inputDTO) {
+    public ResponseEntity<OutputDTO> expressIntent(@RequestBody @Valid InputDTO inputDTO) {
         return ResponseEntity.ok(conversionService.expressIntent(inputDTO));
     }
 
     @PostMapping("/easy-japanese")
-    public ResponseEntity<OutputDTO> toEasyJapanese(@RequestBody InputDTO inputDTO) {
+    public ResponseEntity<OutputDTO> toEasyJapanese(@RequestBody @Valid InputDTO inputDTO) {
         return ResponseEntity.ok(conversionService.toEasyJapanese(inputDTO));
+    }
+
+    @PostMapping("/translate")
+    public ResponseEntity<OutputDTO> translate(@RequestBody @Valid TranslateInputDTO inputDTO) {
+        return ResponseEntity.ok(conversionService.translate(inputDTO));
     }
 }
