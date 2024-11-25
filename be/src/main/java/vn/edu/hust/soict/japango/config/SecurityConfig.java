@@ -27,11 +27,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request ->
-                        request.requestMatchers(HttpMethod.GET, "/api-docs", "/api-docs/**", "/swagger-ui/**", "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
-                                .anyRequest().authenticated()
+//                        request.requestMatchers(HttpMethod.GET, "/api-docs", "/api-docs/**", "/swagger-ui/**", "/api/v1/**").permitAll()
+//                                .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
+//                                .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
+//                                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
+//                                .anyRequest().authenticated()
+                request.anyRequest().permitAll()
         );
         http.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
