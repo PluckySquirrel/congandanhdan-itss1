@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: japango
+      MYSQL_ROOT_PASSWORD: Japango@2024
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - japango_app_network
+  japango:
+    image: nda2105/japango
+    container_name: japango
+    depends_on:
+      - mysqldb
+    ports:
+      - "8080:8080"
+    networks:
+      - japango_app_network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+volumes:
+  mysql_data:
+
+networks:
+  japango_app_network:
