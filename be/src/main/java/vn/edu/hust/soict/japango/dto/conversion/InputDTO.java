@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vn.edu.hust.soict.japango.exception.CustomExceptions;
 
 @Data
 @NoArgsConstructor
@@ -11,4 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class InputDTO {
     private String input;
+    public void validate() {
+        if (input == null || input.isEmpty()) {
+            throw CustomExceptions.INPUT_IS_EMPTY_EXCEPTION;
+        }
+    }
 }

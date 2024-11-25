@@ -5,4 +5,5 @@ import vn.edu.hust.soict.japango.dto.conversion.OutputDTO;
 
 public interface ConversionService {
     OutputDTO expressIntent(InputDTO inputDTO);
+    OutputDTO toEasyJapanese(InputDTO inputDTO);
 }

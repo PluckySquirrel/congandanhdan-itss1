@@ -18,11 +18,16 @@ public class ConversionServiceImpl implements ConversionService {
 
     @Override
     public OutputDTO expressIntent(InputDTO inputDTO) {
-        if (inputDTO == null || inputDTO.getInput() == null || inputDTO.getInput().isEmpty()) {
-            throw CustomExceptions.INPUT_IS_EMPTY_EXCEPTION;
-        }
-
+        inputDTO.validate();
         String text = Prompt.EXPRESS_INTENT_PROMPT.apply(inputDTO.getInput());
+        String result = languageModelService.generateContent(text);
+        return OutputDTO.builder().output(result).build();
+    }
+
+    @Override
+    public OutputDTO toEasyJapanese(InputDTO inputDTO) {
+        inputDTO.validate();
+        String text = Prompt.EASY_JAPANESE_PROMPT.apply(inputDTO.getInput());
         String result = languageModelService.generateContent(text);
         return OutputDTO.builder().output(result).build();
     }

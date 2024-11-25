@@ -7,7 +7,7 @@ import vn.edu.hust.soict.japango.common.enums.Language;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TranslationInputDTO {
+public class TranslateInputDTO {
     private String input;
     private Language targetLanguage;
 }
