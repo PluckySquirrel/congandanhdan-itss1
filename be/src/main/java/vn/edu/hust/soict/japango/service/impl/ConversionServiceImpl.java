@@ -2,18 +2,32 @@ package vn.edu.hust.soict.japango.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import vn.edu.hust.soict.japango.common.enums.ActionType;
+import vn.edu.hust.soict.japango.common.utils.SecurityUtils;
+import vn.edu.hust.soict.japango.dto.conversion.HistoryDTO;
 import vn.edu.hust.soict.japango.dto.conversion.InputDTO;
 import vn.edu.hust.soict.japango.dto.conversion.OutputDTO;
 import vn.edu.hust.soict.japango.dto.conversion.TranslateInputDTO;
+import vn.edu.hust.soict.japango.entity.History;
+import vn.edu.hust.soict.japango.exception.CustomExceptions;
+import vn.edu.hust.soict.japango.repository.HistoryRepository;
 import vn.edu.hust.soict.japango.service.ConversionService;
 import vn.edu.hust.soict.japango.service.LanguageModelService;
+import vn.edu.hust.soict.japango.service.mapper.HistoryMapper;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ConversionServiceImpl implements ConversionService {
     private final LanguageModelService languageModelService;
+    private final HistoryRepository historyRepository;
+    private final SecurityUtils securityUtils;
+    private final HistoryMapper historyMapper;
 
     @Override
     public OutputDTO expressIntent(InputDTO inputDTO) {
@@ -23,8 +37,19 @@ public class ConversionServiceImpl implements ConversionService {
                 「%s」
                 """
                 .formatted(inputDTO.getInput());
-        String result = languageModelService.generateContent(text);
-        return OutputDTO.builder().output(result).build();
+        String output = languageModelService.generateContent(text);
+
+        Optional.ofNullable(securityUtils.getUserId()).ifPresent(userId -> {
+            History history = History.builder()
+                    .userId(userId)
+                    .action(ActionType.INTENT_EXPRESSION)
+                    .input(inputDTO.getInput())
+                    .output(output)
+                    .build();
+            historyRepository.save(history);
+        });
+
+        return OutputDTO.builder().output(output).build();
     }
 
     @Override
@@ -35,8 +60,19 @@ public class ConversionServiceImpl implements ConversionService {
                 「%s」
                 """
                 .formatted(inputDTO.getInput());
-        String result = languageModelService.generateContent(text);
-        return OutputDTO.builder().output(result).build();
+        String output = languageModelService.generateContent(text);
+
+        Optional.ofNullable(securityUtils.getUserId()).ifPresent(userId -> {
+            History history = History.builder()
+                    .userId(userId)
+                    .action(ActionType.EASY_JAPANESE_MODE)
+                    .input(inputDTO.getInput())
+                    .output(output)
+                    .build();
+            historyRepository.save(history);
+        });
+
+        return OutputDTO.builder().output(output).build();
     }
 
     @Override
@@ -47,7 +83,30 @@ public class ConversionServiceImpl implements ConversionService {
                 「%s」
                 """
                 .formatted(inputDTO.getTargetLanguage().getInJapanese(), inputDTO.getInput());
-        String result = languageModelService.generateContent(text);
-        return OutputDTO.builder().output(result).build();
+        String output = languageModelService.generateContent(text);
+
+        Optional.ofNullable(securityUtils.getUserId()).ifPresent(userId -> {
+            History history = History.builder()
+                    .userId(userId)
+                    .action(ActionType.TRANSLATION)
+                    .targetLanguage(inputDTO.getTargetLanguage())
+                    .input(inputDTO.getInput())
+                    .output(output)
+                    .build();
+            historyRepository.save(history);
+        });
+
+        return OutputDTO.builder().output(output).build();
+    }
+
+    @Override
+    public Page<HistoryDTO> getHistory(int page, int size) {
+        Long userId;
+        if ((userId = securityUtils.getUserId()) == null) {
+            throw CustomExceptions.LOGIN_REQUIRED_EXCEPTION;
+        }
+        return historyRepository
+                .findByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(page, size))
+                .map(historyMapper::toDTO);
     }
 }

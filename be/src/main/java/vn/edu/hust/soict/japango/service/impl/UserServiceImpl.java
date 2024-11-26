@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    @Value("${app.secret-key}")
+    @Value("${app.security.secret-key}")
     private String secretKey;
 
     @Override
@@ -52,10 +52,11 @@ public class UserServiceImpl implements UserService {
                 .subject(user.getUsername())
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(24, ChronoUnit.HOURS).toEpochMilli()))
+                .claim("id", user.getId())
                 .claim("uuid", user.getUuid())
-                .claim("scope", user.getRole().name())
                 .claim("name", user.getName())
                 .claim("email", user.getEmail())
+                .claim("scope", user.getRole().name())
                 .build();
         Payload payload = new Payload(claimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header, payload);
@@ -114,7 +115,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (request.getNewPassword().equals(request.getOldPassword())) {
-            throw CustomExceptions.NEW_PASSWORD_SAME_AS_OLD_PASSWORD;
+            throw CustomExceptions.NEW_PASSWORD_SAME_AS_OLD_PASSWORD_EXCEPTION;
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
