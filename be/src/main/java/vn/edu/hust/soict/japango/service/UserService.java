@@ -6,4 +6,5 @@ public interface UserService {
     AuthenticateResponseDTO authenticate(AuthenticateRequestDTO request);
     RegisterResponseDTO register(RegisterRequestDTO request);
     UpdateProfileResponseDTO updateProfile(String uuid, UpdateProfileRequestDTO request);
+    ChangePasswordResponseDTO changePassword(String uuid, ChangePasswordRequestDTO request);
 }

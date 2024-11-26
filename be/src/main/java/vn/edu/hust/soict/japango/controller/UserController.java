@@ -30,4 +30,12 @@ public class UserController {
     ) {
         return ResponseEntity.ok(userService.updateProfile(uuid, request));
     }
+
+    @PutMapping("/{uuid}/change-password")
+    ResponseEntity<ChangePasswordResponseDTO> changePassword(
+            @PathVariable String uuid,
+            @RequestBody @Valid ChangePasswordRequestDTO request
+    ) {
+        return ResponseEntity.ok(userService.changePassword(uuid, request));
+    }
 }

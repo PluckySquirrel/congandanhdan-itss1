@@ -5,4 +5,5 @@ public class CustomExceptions {
     public static final ApiException INCORRECT_PASSWORD_EXCEPTION = new ApiException(1003, "Password is incorrect!");
     public static final ApiException USERNAME_USED_EXCEPTION = new ApiException(1004, "This username is already used.");
     public static final ApiException EMAIL_USED_EXCEPTION = new ApiException(1004, "This email is already used.");
+    public static final ApiException NEW_PASSWORD_SAME_AS_OLD_PASSWORD = new ApiException(1005, "New password is the same as old password!");
 }

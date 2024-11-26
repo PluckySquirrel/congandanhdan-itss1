@@ -19,7 +19,6 @@ import vn.edu.hust.soict.japango.service.mapper.UserMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,12 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AuthenticateResponseDTO authenticate(AuthenticateRequestDTO request) {
-        Optional<User> userOptional = userRepository.findByUsername(request.getUsername());
-        if (userOptional.isEmpty()) {
-            throw CustomExceptions.USER_NOT_EXISTS_EXCEPTION;
-        }
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> CustomExceptions.USER_NOT_EXISTS_EXCEPTION);
 
-        User user = userOptional.get();
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw CustomExceptions.INCORRECT_PASSWORD_EXCEPTION;
         }
@@ -91,10 +87,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UpdateProfileResponseDTO updateProfile(String uuid, UpdateProfileRequestDTO request) {
-        Optional<User> userOptional = userRepository.findByUuid(uuid);
-        if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("User", "uuid", uuid);
-        }
+        User user = userRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "uuid", uuid));
 
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             throw CustomExceptions.USERNAME_USED_EXCEPTION;
@@ -104,10 +98,28 @@ public class UserServiceImpl implements UserService {
             throw CustomExceptions.EMAIL_USED_EXCEPTION;
         }
 
-        User user = userOptional.get();
         userMapper.updateEntity(user, request);
         userRepository.save(user);
 
         return userMapper.toUpdateProfileResponseDTO(user);
+    }
+
+    @Override
+    public ChangePasswordResponseDTO changePassword(String uuid, ChangePasswordRequestDTO request) {
+        User user = userRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "uuid", uuid));
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw CustomExceptions.INCORRECT_PASSWORD_EXCEPTION;
+        }
+
+        if (request.getNewPassword().equals(request.getOldPassword())) {
+            throw CustomExceptions.NEW_PASSWORD_SAME_AS_OLD_PASSWORD;
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        return userMapper.toChangePasswordResponseDTO(user);
     }
 }
