@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import vn.edu.hust.soict.japango.dto.feign.gemini.GeminiGenerateRequestDTO;
 import vn.edu.hust.soict.japango.dto.feign.gemini.GeminiGenerateResponseDTO;
-import vn.edu.hust.soict.japango.feign.GeminiFeignClient;
+import vn.edu.hust.soict.japango.service.feign.GeminiFeignClient;
 import vn.edu.hust.soict.japango.service.LanguageModelService;
 
 @Service

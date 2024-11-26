@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import vn.edu.hust.soict.japango.common.enums.UserRole;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "user_info")
 @Data
@@ -16,7 +18,8 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String uuid;
+    @Builder.Default
+    private String uuid = UUID.randomUUID().toString();
 
     private String username;
 

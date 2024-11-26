@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.edu.hust.soict.japango.dto.user.AuthenticateRequestDTO;
 import vn.edu.hust.soict.japango.dto.user.AuthenticateResponseDTO;
+import vn.edu.hust.soict.japango.dto.user.RegisterRequestDTO;
+import vn.edu.hust.soict.japango.dto.user.RegisterResponseDTO;
 import vn.edu.hust.soict.japango.service.UserService;
 
 @RestController
@@ -22,4 +24,8 @@ public class UserController {
         return ResponseEntity.ok(userService.authenticate(request));
     }
 
+    @PostMapping("/register")
+    ResponseEntity<RegisterResponseDTO> register(@RequestBody @Valid RegisterRequestDTO request) {
+        return ResponseEntity.ok(userService.register(request));
+    }
 }

@@ -1,4 +1,4 @@
-package vn.edu.hust.soict.japango.feign;
+package vn.edu.hust.soict.japango.service.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

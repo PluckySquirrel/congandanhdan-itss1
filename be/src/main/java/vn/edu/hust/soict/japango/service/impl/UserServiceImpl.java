@@ -10,10 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.edu.hust.soict.japango.dto.user.AuthenticateRequestDTO;
 import vn.edu.hust.soict.japango.dto.user.AuthenticateResponseDTO;
+import vn.edu.hust.soict.japango.dto.user.RegisterRequestDTO;
+import vn.edu.hust.soict.japango.dto.user.RegisterResponseDTO;
 import vn.edu.hust.soict.japango.entity.User;
 import vn.edu.hust.soict.japango.exception.CustomExceptions;
 import vn.edu.hust.soict.japango.repository.UserRepository;
 import vn.edu.hust.soict.japango.service.UserService;
+import vn.edu.hust.soict.japango.service.mapper.UserMapper;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -26,6 +29,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Value("${app.secret-key}")
     private String secretKey;
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userOptional.get();
-        if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw CustomExceptions.INCORRECT_PASSWORD_EXCEPTION;
         }
 
@@ -68,5 +72,22 @@ public class UserServiceImpl implements UserService {
         } catch (JOSEException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public RegisterResponseDTO register(RegisterRequestDTO request) {
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw CustomExceptions.USERNAME_USED_EXCEPTION;
+        }
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw CustomExceptions.EMAIL_USED_EXCEPTION;
+        }
+
+        User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+
+        return userMapper.toRegisterResponseDTO(user);
     }
 }
