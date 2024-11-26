@@ -30,7 +30,7 @@ public class ConversionServiceImpl implements ConversionService {
     @Override
     public OutputDTO toEasyJapanese(InputDTO inputDTO) {
         String text = """
-                次の文をN3以下の初級の簡単な言葉を使って、元の意味に近い形で書き直してください。
+                次の文をN3以下の初級の簡単な言葉を使って、元の意味に近い形で書き直してください。書き直した文だけ書いてください。
                 文:
                 「%s」
                 """
@@ -42,7 +42,7 @@ public class ConversionServiceImpl implements ConversionService {
     @Override
     public OutputDTO translate(TranslateInputDTO inputDTO) {
         String text = """
-                次の文を日本語の元の意味に近い形で、スムーズで自然な%sに翻訳してください。
+                次の文を日本語の元の意味に近い形で、スムーズで自然な%sに翻訳してください。翻訳した文だけ書いてください。
                 文:
                 「%s」
                 """
