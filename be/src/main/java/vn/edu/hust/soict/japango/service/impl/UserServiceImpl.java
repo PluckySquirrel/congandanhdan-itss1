@@ -8,12 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import vn.edu.hust.soict.japango.dto.user.AuthenticateRequestDTO;
-import vn.edu.hust.soict.japango.dto.user.AuthenticateResponseDTO;
-import vn.edu.hust.soict.japango.dto.user.RegisterRequestDTO;
-import vn.edu.hust.soict.japango.dto.user.RegisterResponseDTO;
+import vn.edu.hust.soict.japango.dto.user.*;
 import vn.edu.hust.soict.japango.entity.User;
 import vn.edu.hust.soict.japango.exception.CustomExceptions;
+import vn.edu.hust.soict.japango.exception.ResourceNotFoundException;
 import vn.edu.hust.soict.japango.repository.UserRepository;
 import vn.edu.hust.soict.japango.service.UserService;
 import vn.edu.hust.soict.japango.service.mapper.UserMapper;
@@ -89,5 +87,27 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return userMapper.toRegisterResponseDTO(user);
+    }
+
+    @Override
+    public UpdateProfileResponseDTO updateProfile(String uuid, UpdateProfileRequestDTO request) {
+        Optional<User> userOptional = userRepository.findByUuid(uuid);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("User", "uuid", uuid);
+        }
+
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw CustomExceptions.USERNAME_USED_EXCEPTION;
+        }
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw CustomExceptions.EMAIL_USED_EXCEPTION;
+        }
+
+        User user = userOptional.get();
+        userMapper.updateEntity(user, request);
+        userRepository.save(user);
+
+        return userMapper.toUpdateProfileResponseDTO(user);
     }
 }

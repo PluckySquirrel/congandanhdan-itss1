@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterResponseDTO {
+public class UpdateProfileResponseDTO {
     private String uuid;
     private String username;
     private String name;
     private String email;
-    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
