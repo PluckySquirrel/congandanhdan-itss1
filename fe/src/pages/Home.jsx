@@ -1,10 +1,12 @@
 import { BsMicFill, BsVolumeUpFill } from 'react-icons/bs'
 import React, { useState } from 'react'
+import getOutputLanguageTag from '../utils/getOutputLanguageTag';
 
 const Home = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [language, setLanguage] = useState('VIETNAMESE');
+  const [translateLanguage, setTranslateLanguage] = useState('VIETNAMESE');
+  const [outputLanguage, setOutputLanguage] = useState('ja');
   const [listening, setListening] = useState(false);
 
   const handleInputChange = (e) => {
@@ -12,7 +14,9 @@ const Home = () => {
   }
 
   const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
+    const language = e.target.value;
+    setTranslateLanguage(language);
+    setOutputLanguage(getOutputLanguageTag(language));
   }
 
   const getVoiceInput = () => {
@@ -21,8 +25,8 @@ const Home = () => {
 
     const recognition = new SpeechRecognition();
     recognition.lang = 'ja';
-    const utterance = new SpeechSynthesisUtterance("Hello world!");
-    speechSynthesis.speak(utterance);
+
+    recognition.start();
 
     recognition.onstart = () => {
       setListening(true);
@@ -39,6 +43,7 @@ const Home = () => {
   }
 
   const getEasyJapanese = async() => {
+    setOutputLanguage('ja');
     setOutput('Loading...');
     const response = await fetch('http://localhost:8080/api/v1/easy-japanese', {
       method: 'POST',
@@ -59,6 +64,7 @@ const Home = () => {
   }
 
   const getIntent = async () => {
+    setOutputLanguage('ja');
     setOutput('Loading...');
     const response = await fetch('http://localhost:8080/api/v1/express-intent', {
       method: 'POST',
@@ -85,7 +91,7 @@ const Home = () => {
       headers: { 
         'Content-Type': 'application/json' 
       },
-      body: JSON.stringify({targetLanguage: language, input})
+      body: JSON.stringify({targetLanguage: translateLanguage, input})
     });
     const data = await response.json();
     
@@ -98,8 +104,9 @@ const Home = () => {
     setOutput(data.output);
   }
   
-  const suaGauGau = (phrase) => {
+  const suaGauGau = (phrase, language='ja') => {
     const utterance = new SpeechSynthesisUtterance(phrase);
+    utterance.lang = language;
     speechSynthesis.speak(utterance);
   }
 
@@ -174,7 +181,7 @@ const Home = () => {
         </p>
         <button 
           className='absolute bottom-2 left-4 text-gray hover:text-darkGray'
-          onClick={() => suaGauGau(output)}
+          onClick={() => suaGauGau(output, outputLanguage)}
         >
           <BsVolumeUpFill size='2rem' />
         </button>
