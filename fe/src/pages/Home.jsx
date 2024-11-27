@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 const Home = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [language, setLanguage] = useState('JAPANESE');
+  const [language, setLanguage] = useState('VIETNAMESE');
   const [listening, setListening] = useState(false);
 
   const handleInputChange = (e) => {
@@ -27,8 +27,15 @@ const Home = () => {
       },
       body: JSON.stringify({input})
     });
-    const data = await response.text();
-    setOutput(data);
+    const data = await response.json();
+
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status} - ${data.message}`;
+      console.error(message);
+      return;
+    }
+
+    setOutput(data.output);
   }
 
   const getIntent = async () => {
@@ -39,8 +46,15 @@ const Home = () => {
       },
       body: JSON.stringify({input})
     });
-    const data = await response.text();
-    setOutput(data);
+    const data = await response.json();
+
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status} - ${data.message}`;
+      console.error(message);
+      return;
+    }
+
+    setOutput(data.output);
   }
 
   const getTranslation = async () => {
@@ -49,10 +63,17 @@ const Home = () => {
       headers: { 
         'Content-Type': 'application/json' 
       },
-      body: JSON.stringify({language, input})
+      body: JSON.stringify({targetLanguage: language, input})
     });
-    const data = await response.text();
-    setOutput(data);
+    const data = await response.json();
+    
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status} - ${data.message}`;
+      console.error(message);
+      return;
+    }
+
+    setOutput(data.output);
   }
   
   const SpeechRecognition =
@@ -112,9 +133,6 @@ const Home = () => {
           className='px-4 py-2 flex gap-2 border border-gray shadow-md rounded-md'
           onChange={(e) => handleLanguageChange(e)}
         >
-          <option value='JAPANESE'>
-            日本語
-          </option>
           <option value='VIETNAMESE'>
             Tiếng Việt
           </option>
