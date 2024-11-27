@@ -158,6 +158,7 @@ const Home = () => {
         placeholder='The output intent expression or translation is displayed here...'
         value={output}
         onChange={(e) => handleOutputChange(e)}
+        disabled
       />
     </div>
   )
