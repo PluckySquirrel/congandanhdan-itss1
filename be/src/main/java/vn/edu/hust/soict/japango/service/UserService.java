@@ -1,11 +1,10 @@
 package vn.edu.hust.soict.japango.service;
 
-import vn.edu.hust.soict.japango.dto.user.AuthenticateRequestDTO;
-import vn.edu.hust.soict.japango.dto.user.AuthenticateResponseDTO;
-import vn.edu.hust.soict.japango.dto.user.RegisterRequestDTO;
-import vn.edu.hust.soict.japango.dto.user.RegisterResponseDTO;
+import vn.edu.hust.soict.japango.dto.user.*;
 
 public interface UserService {
     AuthenticateResponseDTO authenticate(AuthenticateRequestDTO request);
     RegisterResponseDTO register(RegisterRequestDTO request);
+    UpdateProfileResponseDTO updateProfile(String uuid, UpdateProfileRequestDTO request);
+    ChangePasswordResponseDTO changePassword(String uuid, ChangePasswordRequestDTO request);
 }
