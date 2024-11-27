@@ -11,10 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterResponseDTO {
+public class ChangePasswordResponseDTO {
     private String uuid;
-    private String username;
-    private String name;
-    private String email;
-    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
