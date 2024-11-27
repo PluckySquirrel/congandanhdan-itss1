@@ -117,14 +117,16 @@ const Home = () => {
       </button>
       <div className='w-1/2 my-4 flex items-center justify-center gap-4'>
         <button 
-          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'
+          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:opacity-50'
           onClick={() => getEasyJapanese()}
+          disabled={input === ''}
         >
           Easy Japanese mode
         </button>
         <button 
-          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'
+          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:opacity-50'
           onClick={() => getIntent()}
+          disabled={input === ''}
         >
           Express intent
         </button>
@@ -141,8 +143,9 @@ const Home = () => {
           </option>
         </select>
         <button 
-          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'
+          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:opacity-50'
           onClick={() => getTranslation()}
+          disabled={input === ''}
         >
           Translate
         </button>
