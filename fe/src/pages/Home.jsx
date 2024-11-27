@@ -4,7 +4,8 @@ import React, { useState } from 'react'
 const Home = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [language, setLanguage] = useState('');
+  const [language, setLanguage] = useState('JAPANESE');
+  const [listening, setListening] = useState(false);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -18,6 +19,61 @@ const Home = () => {
     setLanguage(e.target.value);
   }
 
+  const getEasyJapanese = async() => {
+    const response = await fetch('http://localhost:8080/api/v1/easy-japanese', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({input})
+    });
+    const data = await response.text();
+    setOutput(data);
+  }
+
+  const getIntent = async () => {
+    const response = await fetch('http://localhost:8080/api/v1/express-intent', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify({input})
+    });
+    const data = await response.text();
+    setOutput(data);
+  }
+
+  const getTranslation = async () => {
+    const response = await fetch('http://localhost:8080/api/v1/translate', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify({language, input})
+    });
+    const data = await response.text();
+    setOutput(data);
+  }
+  
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'ja';
+
+  recognition.onstart = () => {
+    setListening(true);
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    setInput(transcript);
+  };
+
+  recognition.onend = () => {
+    setListening(false);
+  };
+
   return (
     <div className='flex flex-col items-center py-4'>
       <h1 className='text-3xl'>Input</h1>
@@ -29,17 +85,26 @@ const Home = () => {
         value={input}
         onChange={(e) => handleInputChange(e)}
       />
-      <button className='px-4 py-2 flex gap-2 border border-gray shadow-md rounded-md hover:bg-gray'>
+      <button 
+        className='px-4 py-2 flex gap-2 border border-gray shadow-md rounded-md hover:bg-gray'
+        // onClick={() => recognition.start()}
+      >
         <div className='w-6 h-6 flex items-center justify-center rounded-full bg-red text-white'>
           <BsMicFill />
         </div>
-        Voice input
+        {listening ? 'Listening...' : 'Voice input'}
       </button>
       <div className='w-1/2 my-4 flex items-center justify-center gap-4'>
-        <button className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'>
+        <button 
+          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'
+          onClick={() => getEasyJapanese()}
+        >
           Easy Japanese mode
         </button>
-        <button className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'>
+        <button 
+          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'
+          onClick={() => getIntent()}
+        >
           Express intent
         </button>
         or
@@ -47,17 +112,20 @@ const Home = () => {
           className='px-4 py-2 flex gap-2 border border-gray shadow-md rounded-md'
           onChange={(e) => handleLanguageChange(e)}
         >
-          <option value='jp'>
+          <option value='JAPANESE'>
             日本語
           </option>
-          <option value='vi'>
+          <option value='VIETNAMESE'>
             Tiếng Việt
           </option>
-          <option value='en'>
+          <option value='ENGLISH'>
             English
           </option>
         </select>
-        <button className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'>
+        <button 
+          className='px-4 py-2 flex gap-2 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue'
+          onClick={() => getTranslation()}
+        >
           Translate
         </button>
       </div>
