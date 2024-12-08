@@ -43,4 +43,9 @@ public class UserController {
     ) {
         return ResponseEntity.ok(userService.changePassword(uuid, request));
     }
+
+    @PostMapping("/forgot-password")
+    ResponseEntity<ForgotPasswordResponseDTO> forgotPassword(@RequestBody @Valid ForgotPasswordRequestDTO request) {
+        return ResponseEntity.ok(userService.forgotPassword(request));
+    }
 }

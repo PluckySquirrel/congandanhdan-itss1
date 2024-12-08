@@ -8,17 +8,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vn.edu.hust.soict.japango.common.constants.TemplateParams;
+import vn.edu.hust.soict.japango.common.enums.Mail;
+import vn.edu.hust.soict.japango.common.enums.TokenType;
+import vn.edu.hust.soict.japango.common.utils.StringUtils;
 import vn.edu.hust.soict.japango.dto.user.*;
+import vn.edu.hust.soict.japango.entity.Token;
 import vn.edu.hust.soict.japango.entity.User;
 import vn.edu.hust.soict.japango.exception.CustomExceptions;
 import vn.edu.hust.soict.japango.exception.ResourceNotFoundException;
+import vn.edu.hust.soict.japango.repository.TokenRepository;
 import vn.edu.hust.soict.japango.repository.UserRepository;
+import vn.edu.hust.soict.japango.service.MailService;
 import vn.edu.hust.soict.japango.service.UserService;
 import vn.edu.hust.soict.japango.service.mapper.UserMapper;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Map;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -27,9 +38,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final TokenRepository tokenRepository;
+    private final MailService mailService;
+    private final DateTimeFormatter dateTimeFormatter;
 
     @Value("${app.security.secret-key}")
     private String secretKey;
+
+    @Value("${app.token.length}")
+    private Integer tokenLength;
+
+    @Value("${app.token.reset-password.expire-seconds}")
+    private Long resetPasswordTokenExpireSeconds;
+
+    @Value("${app.web.url.reset-password}")
+    private String resetPasswordUrl;
 
     @Override
     public AuthenticateResponseDTO authenticate(AuthenticateRequestDTO request) {
@@ -40,13 +63,13 @@ public class UserServiceImpl implements UserService {
             throw CustomExceptions.INCORRECT_PASSWORD_EXCEPTION;
         }
 
-        String accessToken = generateToken(user);
+        String accessToken = generateAccessToken(user);
         return AuthenticateResponseDTO.builder()
                 .accessToken(accessToken)
                 .build();
     }
 
-    private String generateToken(User user) {
+    private String generateAccessToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
@@ -130,5 +153,40 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return userMapper.toChangePasswordResponseDTO(user);
+    }
+
+    @Override
+    public ForgotPasswordResponseDTO forgotPassword(ForgotPasswordRequestDTO request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", request.getEmail()));
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        tokenRepository.deleteByUserIdAndTypeAndExpireTimeAfterAndIsNotUsed(user.getId(), TokenType.RESET_PASSWORD, timestamp);
+        Token token = Token.builder()
+                .userId(user.getId())
+                .type(TokenType.RESET_PASSWORD)
+                .value(generateAppToken())
+                .expireTime(timestamp.plusSeconds(resetPasswordTokenExpireSeconds))
+                .build();
+        tokenRepository.save(token);
+
+        mailService.sendMail(user.getEmail(), Mail.RESET_PASSWORD_MAIL, Map.of(
+                TemplateParams.NAME, user.getName(),
+                TemplateParams.TIMESTAMP, timestamp.format(dateTimeFormatter),
+                TemplateParams.URL, StringUtils.replaceArg(resetPasswordUrl, TemplateParams.TOKEN, token.getValue())
+        ));
+
+        return ForgotPasswordResponseDTO.builder().expireSeconds(resetPasswordTokenExpireSeconds).build();
+    }
+
+    private String generateAppToken() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder token = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < tokenLength; i++) {
+            token.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return token.toString();
     }
 }

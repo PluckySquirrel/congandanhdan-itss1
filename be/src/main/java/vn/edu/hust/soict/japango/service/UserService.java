@@ -8,4 +8,5 @@ public interface UserService {
     GetProfileResponseDTO getProfile(String uuid);
     UpdateProfileResponseDTO updateProfile(String uuid, UpdateProfileRequestDTO request);
     ChangePasswordResponseDTO changePassword(String uuid, ChangePasswordRequestDTO request);
+    ForgotPasswordResponseDTO forgotPassword(ForgotPasswordRequestDTO request);
 }
