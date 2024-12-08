@@ -9,6 +9,7 @@ import vn.edu.hust.soict.japango.common.enums.TokenType;
 import vn.edu.hust.soict.japango.entity.Token;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
@@ -16,4 +17,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     @Transactional
     @Query("DELETE FROM Token t WHERE t.userId = :userId AND t.type = :type AND t.expireTime > :time AND t.isUsed = false")
     void deleteByUserIdAndTypeAndExpireTimeAfterAndIsNotUsed(Long userId, TokenType type, LocalDateTime time);
+
+    @Query("SELECT t FROM Token t WHERE t.value = :value AND t.expireTime > :time AND t.isUsed = false")
+    Optional<Token> findByValueAndExpireTimeAfterAndIsNotUsed(String value, LocalDateTime time);
 }

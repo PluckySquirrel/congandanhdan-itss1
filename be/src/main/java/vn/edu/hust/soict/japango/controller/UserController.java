@@ -48,4 +48,9 @@ public class UserController {
     ResponseEntity<ForgotPasswordResponseDTO> forgotPassword(@RequestBody @Valid ForgotPasswordRequestDTO request) {
         return ResponseEntity.ok(userService.forgotPassword(request));
     }
+
+    @PostMapping("/verify-token")
+    ResponseEntity<VerifyTokenResponseDTO> verifyToken(@RequestBody @Valid VerifyTokenRequestDTO request) {
+        return ResponseEntity.ok(userService.verifyToken(request));
+    }
 }

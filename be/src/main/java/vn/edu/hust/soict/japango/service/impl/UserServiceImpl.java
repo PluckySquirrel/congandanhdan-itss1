@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -163,10 +164,14 @@ public class UserServiceImpl implements UserService {
         LocalDateTime timestamp = LocalDateTime.now();
 
         tokenRepository.deleteByUserIdAndTypeAndExpireTimeAfterAndIsNotUsed(user.getId(), TokenType.RESET_PASSWORD, timestamp);
+        String tokenValue;
+        do {
+            tokenValue = generateAppToken();
+        } while (tokenRepository.findByValueAndExpireTimeAfterAndIsNotUsed(tokenValue, timestamp).isPresent());
         Token token = Token.builder()
                 .userId(user.getId())
                 .type(TokenType.RESET_PASSWORD)
-                .value(generateAppToken())
+                .value(tokenValue)
                 .expireTime(timestamp.plusSeconds(resetPasswordTokenExpireSeconds))
                 .build();
         tokenRepository.save(token);
@@ -188,5 +193,14 @@ public class UserServiceImpl implements UserService {
             token.append(characters.charAt(random.nextInt(characters.length())));
         }
         return token.toString();
+    }
+
+    @Override
+    public VerifyTokenResponseDTO verifyToken(VerifyTokenRequestDTO request) {
+        Optional<Token> tokenOptional = tokenRepository
+                .findByValueAndExpireTimeAfterAndIsNotUsed(request.getToken(), LocalDateTime.now());
+        return VerifyTokenResponseDTO.builder()
+                .isValid(tokenOptional.isPresent())
+                .build();
     }
 }
