@@ -17,6 +17,7 @@ public class RegisterRequestDTO {
     @NotEmpty
     @Pattern(regexp = "[A-Za-z0-9_]+", message = "should only contain letters, digits or underscores")
     private String username;
+    @NotEmpty
     @Size(min = 8, message = "should contain at least 8 characters")
     private String password;
     @NotEmpty

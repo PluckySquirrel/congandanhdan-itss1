@@ -203,4 +203,21 @@ public class UserServiceImpl implements UserService {
                 .isValid(tokenOptional.isPresent())
                 .build();
     }
+
+    @Override
+    public ResetPasswordResponseDTO resetPassword(ResetPasswordRequestDTO request) {
+        Token token = tokenRepository.findByValueAndExpireTimeAfterAndIsNotUsed(request.getToken(), LocalDateTime.now())
+                .orElseThrow(() -> CustomExceptions.TOKEN_INVALID_EXCEPTION);
+
+        User user = userRepository.findById(token.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", token.getUserId()));
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        token.setIsUsed(true);
+        tokenRepository.save(token);
+
+        return userMapper.toResetPasswordResponseDTO(user);
+    }
 }

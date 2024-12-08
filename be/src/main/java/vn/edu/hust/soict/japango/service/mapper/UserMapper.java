@@ -13,4 +13,5 @@ public interface UserMapper {
     GetProfileResponseDTO toGetProfileResponseDTO(User user);
     UpdateProfileResponseDTO toUpdateProfileResponseDTO(User user);
     ChangePasswordResponseDTO toChangePasswordResponseDTO(User user);
+    ResetPasswordResponseDTO toResetPasswordResponseDTO(User user);
 }

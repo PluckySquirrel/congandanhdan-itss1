@@ -9,4 +9,5 @@ public class CustomExceptions {
     public static final ApiException EMAIL_USED_EXCEPTION = new ApiException(1004, "This email is already used.");
     public static final ApiException NEW_PASSWORD_SAME_AS_OLD_PASSWORD_EXCEPTION = new ApiException(1005, "New password is the same as old password!");
     public static final ApiException LOGIN_REQUIRED_EXCEPTION = new ApiException(1006, "Please login to do this action.", HttpStatus.UNAUTHORIZED);
+    public static final ApiException TOKEN_INVALID_EXCEPTION = new ApiException(1007, "Sorry, your token has expired or has been used. You can request another.");
 }

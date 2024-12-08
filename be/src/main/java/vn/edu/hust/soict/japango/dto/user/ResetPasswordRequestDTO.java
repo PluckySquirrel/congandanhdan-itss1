@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChangePasswordRequestDTO {
+public class ResetPasswordRequestDTO {
     @NotEmpty
-    private String oldPassword;
+    private String token;
     @NotEmpty
     @Size(min = 8, message = "should contain at least 8 characters")
     private String newPassword;

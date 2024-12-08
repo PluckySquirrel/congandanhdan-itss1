@@ -53,4 +53,9 @@ public class UserController {
     ResponseEntity<VerifyTokenResponseDTO> verifyToken(@RequestBody @Valid VerifyTokenRequestDTO request) {
         return ResponseEntity.ok(userService.verifyToken(request));
     }
+
+    @PutMapping("/reset-password")
+    ResponseEntity<ResetPasswordResponseDTO> resetPassword(@RequestBody @Valid ResetPasswordRequestDTO request) {
+        return ResponseEntity.ok(userService.resetPassword(request));
+    }
 }

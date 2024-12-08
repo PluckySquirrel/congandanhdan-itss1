@@ -10,4 +10,5 @@ public interface UserService {
     ChangePasswordResponseDTO changePassword(String uuid, ChangePasswordRequestDTO request);
     ForgotPasswordResponseDTO forgotPassword(ForgotPasswordRequestDTO request);
     VerifyTokenResponseDTO verifyToken(VerifyTokenRequestDTO request);
+    ResetPasswordResponseDTO resetPassword(ResetPasswordRequestDTO request);
 }
