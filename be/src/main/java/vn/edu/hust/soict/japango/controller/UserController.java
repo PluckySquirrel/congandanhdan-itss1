@@ -23,6 +23,11 @@ public class UserController {
         return ResponseEntity.ok(userService.register(request));
     }
 
+    @GetMapping("/{uuid}")
+    ResponseEntity<GetProfileResponseDTO> getProfile(@PathVariable String uuid) {
+        return ResponseEntity.ok(userService.getProfile(uuid));
+    }
+
     @PutMapping("/{uuid}")
     ResponseEntity<UpdateProfileResponseDTO> updateProfile(
             @PathVariable String uuid,

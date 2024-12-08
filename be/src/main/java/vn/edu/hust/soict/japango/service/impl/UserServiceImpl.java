@@ -87,6 +87,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public GetProfileResponseDTO getProfile(String uuid) {
+        User user = userRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "uuid", uuid));
+
+        return userMapper.toGetProfileResponseDTO(user);
+    }
+
+    @Override
     public UpdateProfileResponseDTO updateProfile(String uuid, UpdateProfileRequestDTO request) {
         User user = userRepository.findByUuid(uuid)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "uuid", uuid));
