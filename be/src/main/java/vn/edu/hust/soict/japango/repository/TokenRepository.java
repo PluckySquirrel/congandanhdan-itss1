@@ -16,7 +16,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     @Modifying
     @Transactional
     @Query("DELETE FROM Token t WHERE t.userId = :userId AND t.type = :type AND t.expireTime > :time AND t.isUsed = false")
-    void deleteByUserIdAndTypeAndExpireTimeAfterAndIsNotUsed(Long userId, TokenType type, LocalDateTime time);
+    int deleteByUserIdAndTypeAndExpireTimeAfterAndIsNotUsed(Long userId, TokenType type, LocalDateTime time);
 
     @Query("SELECT t FROM Token t WHERE t.value = :value AND t.expireTime > :time AND t.isUsed = false")
     Optional<Token> findByValueAndExpireTimeAfterAndIsNotUsed(String value, LocalDateTime time);
