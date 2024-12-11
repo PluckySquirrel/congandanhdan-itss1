@@ -1,8 +1,11 @@
 import { BsMicFill, BsVolumeUpFill } from 'react-icons/bs'
 import React, { useState } from 'react'
 import getOutputLanguageTag from '../utils/getOutputLanguageTag';
+import { useCookies } from 'react-cookie';
 
 const Home = () => {
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [translateLanguage, setTranslateLanguage] = useState('VIETNAMESE');
@@ -49,6 +52,7 @@ const Home = () => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies.token}`,
       },
       body: JSON.stringify({input})
     });
@@ -69,7 +73,8 @@ const Home = () => {
     const response = await fetch('http://localhost:8080/api/v1/express-intent', {
       method: 'POST',
       headers: { 
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies.token}`,
       },
       body: JSON.stringify({input})
     });
@@ -89,7 +94,8 @@ const Home = () => {
     const response = await fetch('http://localhost:8080/api/v1/translate', {
       method: 'POST',
       headers: { 
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies.token}`,
       },
       body: JSON.stringify({targetLanguage: translateLanguage, input})
     });
