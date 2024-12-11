@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../AuthContext';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
   const [inputs, setInputs] = useState({});
+  const [cookies, setCookie, removeCookie] = useCookies(['token'])
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -30,8 +30,10 @@ const Login = () => {
       return;
     }
 
-    document.cookie = `token=${data.accessToken}; HTTPOnly; Secure`;
-    login();
+    setCookie('token', data.accessToken, {
+      secure: true,
+      sameSite: 'lax',
+    })
     navigate('/');
   }
 

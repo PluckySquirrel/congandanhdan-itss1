@@ -1,14 +1,13 @@
-import React, { useContext } from 'react'
-import { AuthContext } from '../AuthContext';
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { auth, logout } = useContext(AuthContext);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   const handleLogout = () => {
-    document.cookie = '';
-    logout();
+    removeCookie('token');
     navigate('/login');
   }
 
@@ -20,7 +19,7 @@ const Navbar = () => {
       <div className='h-full gap-8 flex'>
         <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-gray' href='/'>Home</a>
         {
-          auth ?
+          cookies.token ?
           <>
             <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-gray' href='/history'>History</a>
             <button className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-gray' onClick={handleLogout}>Logout</button>
