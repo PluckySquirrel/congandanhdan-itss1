@@ -10,6 +10,8 @@ public interface UserMapper {
     User toEntity(RegisterRequestDTO request);
     RegisterResponseDTO toRegisterResponseDTO(User user);
     void updateEntity(@MappingTarget User user, UpdateProfileRequestDTO request);
+    GetProfileResponseDTO toGetProfileResponseDTO(User user);
     UpdateProfileResponseDTO toUpdateProfileResponseDTO(User user);
     ChangePasswordResponseDTO toChangePasswordResponseDTO(User user);
+    ResetPasswordResponseDTO toResetPasswordResponseDTO(User user);
 }

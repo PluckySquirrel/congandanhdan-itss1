@@ -1,7 +1,6 @@
 package vn.edu.hust.soict.japango.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChangePasswordRequestDTO {
+public class VerifyTokenRequestDTO {
     @NotEmpty
-    private String oldPassword;
-    @NotEmpty
-    @Size(min = 8, message = "should contain at least 8 characters")
-    private String newPassword;
+    private String token;
 }
