@@ -23,6 +23,11 @@ public class UserController {
         return ResponseEntity.ok(userService.register(request));
     }
 
+    @GetMapping("/{uuid}")
+    ResponseEntity<GetProfileResponseDTO> getProfile(@PathVariable String uuid) {
+        return ResponseEntity.ok(userService.getProfile(uuid));
+    }
+
     @PutMapping("/{uuid}")
     ResponseEntity<UpdateProfileResponseDTO> updateProfile(
             @PathVariable String uuid,
@@ -37,5 +42,20 @@ public class UserController {
             @RequestBody @Valid ChangePasswordRequestDTO request
     ) {
         return ResponseEntity.ok(userService.changePassword(uuid, request));
+    }
+
+    @PostMapping("/forgot-password")
+    ResponseEntity<ForgotPasswordResponseDTO> forgotPassword(@RequestBody @Valid ForgotPasswordRequestDTO request) {
+        return ResponseEntity.ok(userService.forgotPassword(request));
+    }
+
+    @PostMapping("/verify-token")
+    ResponseEntity<VerifyTokenResponseDTO> verifyToken(@RequestBody @Valid VerifyTokenRequestDTO request) {
+        return ResponseEntity.ok(userService.verifyToken(request));
+    }
+
+    @PutMapping("/reset-password")
+    ResponseEntity<ResetPasswordResponseDTO> resetPassword(@RequestBody @Valid ResetPasswordRequestDTO request) {
+        return ResponseEntity.ok(userService.resetPassword(request));
     }
 }

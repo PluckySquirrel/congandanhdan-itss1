@@ -33,6 +33,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleGlobalException(Exception exception) {
+        exception.printStackTrace();
         ErrorDTO errorDTO = ErrorDTO.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(exception.getMessage())
