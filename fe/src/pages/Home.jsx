@@ -9,7 +9,7 @@ const Home = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [translateLanguage, setTranslateLanguage] = useState('VIETNAMESE');
-  const [outputLanguage, setOutputLanguage] = useState('ja');
+  const [outputLanguage, setOutputLanguage] = useState('vi');
   const [listening, setListening] = useState(false);
 
   const handleInputChange = (e) => {
@@ -45,6 +45,16 @@ const Home = () => {
     };
   }
 
+  const checkResponse = (response, data) => {
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status} - ${data.message}`;
+      console.error(message);
+      window.alert("There was some error.");
+      return false;
+    }
+    return true;
+  }
+
   const getEasyJapanese = async() => {
     setOutputLanguage('ja');
     setOutput('Loading...');
@@ -52,19 +62,15 @@ const Home = () => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies.token}`,
+        'Authorization': cookies.token ? `Bearer ${cookies.token}` : null,
       },
       body: JSON.stringify({input})
     });
     const data = await response.json();
 
-    if (!response.ok) {
-      const message = `An error has occured: ${response.status} - ${data.message}`;
-      console.error(message);
-      return;
+    if (checkResponse(response, data)) {
+      setOutput(data.output);
     }
-
-    setOutput(data.output);
   }
 
   const getIntent = async () => {
@@ -74,40 +80,33 @@ const Home = () => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies.token}`,
+        'Authorization': cookies.token ? `Bearer ${cookies.token}` : null,
       },
       body: JSON.stringify({input})
     });
     const data = await response.json();
 
-    if (!response.ok) {
-      const message = `An error has occured: ${response.status} - ${data.message}`;
-      console.error(message);
-      return;
+    if (checkResponse(response, data)) {
+      setOutput(data.output);
     }
-
-    setOutput(data.output);
   }
 
   const getTranslation = async () => {
+    const text = output;
     setOutput('Loading...');
     const response = await fetch('http://localhost:8080/api/v1/translate', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies.token}`,
+        'Authorization': cookies.token ? `Bearer ${cookies.token}` : null,
       },
-      body: JSON.stringify({targetLanguage: translateLanguage, input})
+      body: JSON.stringify({targetLanguage: translateLanguage, input: text})
     });
     const data = await response.json();
     
-    if (!response.ok) {
-      const message = `An error has occured: ${response.status} - ${data.message}`;
-      console.error(message);
-      return;
+    if (checkResponse(response, data)) {
+      setOutput(data.output);
     }
-
-    setOutput(data.output);
   }
   
   const suaGauGau = (phrase, language='ja') => {
@@ -175,7 +174,7 @@ const Home = () => {
         <button 
           className='px-4 h-10 flex items-center gap-2 px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled'
           onClick={() => getTranslation()}
-          disabled={input === ''}
+          disabled={output === '' || output == 'Loading...'}
         >
           Translate
         </button>
