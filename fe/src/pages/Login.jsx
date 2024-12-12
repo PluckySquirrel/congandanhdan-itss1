@@ -6,6 +6,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(['token'])
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -15,6 +16,7 @@ const Login = () => {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const response = await fetch('http://localhost:8080/api/v1/users/login', {
       method: 'POST',
       headers: {
@@ -23,10 +25,12 @@ const Login = () => {
       body: JSON.stringify(inputs)
     });
     const data = await response.json();
+    setLoading(false);
 
     if (!response.ok) {
       const message = `An error has occured: ${response.status} - ${data.message}`;
       console.error(message);
+      window.alert(data.message);
       return;
     }
 
@@ -63,6 +67,7 @@ const Login = () => {
       <button 
         className='px-4 h-10 flex items-center px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled'
         type='submit'
+        disabled={loading}
       >
         Sign in
       </button>
