@@ -25,13 +25,18 @@ const HistoryItem = (props) => {
         </div>
         <p className='text-gray'>{getDate(timestamp)}</p>
       </div>
-      <div className='flex items-center gap-2'>
+      <div className='flex items-start gap-2'>
         <button onClick={() => suaGauGau(input)}>
           <BsVolumeUpFill size='1.5rem' />
         </button>
-        <h2 className='text-xl font-bold'>{input}</h2>
+        <h2 className='text-xl font-bold text-left'>{input}</h2>
       </div>
-      <h3 className='text-lg text-blue'>{output}</h3>
+      <div className='flex items-start gap-2'>
+        <button onClick={() => suaGauGau(output, getLanguage(targetLanguage))}>
+          <BsVolumeUpFill size='1.5rem' />
+        </button>
+        <h3 className='text-lg text-blue text-left'>{output}</h3>
+      </div>
     </div>
   )
 }

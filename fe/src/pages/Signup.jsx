@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -13,6 +14,7 @@ const Signup = () => {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const response = await fetch('http://localhost:8080/api/v1/users/register', {
       method: 'POST',
       headers: { 
@@ -21,10 +23,12 @@ const Signup = () => {
       body: JSON.stringify(inputs)
     });
     const data = await response.json();
+    setLoading(false);
 
     if (!response.ok) {
       const message = `An error has occured: ${response.status} - ${data.message}`;
       console.error(message);
+      window.alert(data.message);
       return;
     }
 
@@ -84,6 +88,7 @@ const Signup = () => {
       <button 
         className='px-4 h-10 flex items-center px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled'
         type='submit'
+        disabled={loading}
       >
         Create account
       </button>
