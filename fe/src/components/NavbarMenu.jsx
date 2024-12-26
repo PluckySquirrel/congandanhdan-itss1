@@ -28,19 +28,19 @@ const NavbarMenu = (props) => {
   return (
     <div ref={ref} className='absolute top-16 right-8 w-48 flex flex-col rounded-sm overflow-hidden shadow-md'>
       <a 
-        className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-gray' 
+        className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-lightGray' 
         href='/settings'
       >
         Settings
       </a>
       <a 
-        className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-gray' 
+        className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-lightGray' 
         href='/history'
       >
         History
       </a>
       <button 
-        className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-gray' 
+        className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-lightGray' 
         onClick={handleLogout}
       >
         Logout

@@ -17,7 +17,7 @@ const Navbar = () => {
         <img src="/logo.svg" className='h-8' />
       </div>
       <div className='h-full gap-8 flex items-center'>
-        <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-gray' href='/'>Home</a>
+        <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-lightGray' href='/'>Home</a>
         {
           cookies.token ?
           <>
@@ -29,8 +29,8 @@ const Navbar = () => {
           </>
           :
           <>
-            <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-gray' href='/login'>Login</a>
-            <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-gray' href='/signup'>Sign up</a>
+            <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-lightGray' href='/login'>Login</a>
+            <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-lightGray' href='/signup'>Sign up</a>
           </>
         }
         

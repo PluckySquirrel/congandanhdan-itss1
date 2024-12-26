@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import ForgotPassword from './pages/ForgotPassword';
 import History from './pages/History';
 import Settings from './pages/Settings';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path = "/login" element= {<Login />}/>
           <Route path = "/forgot-password" element= {<ForgotPassword />}/>
+          <Route path = "/resetpassword/:id" element= {<ResetPassword />}/>
           <Route path = "/history" element= {<History />}/>
           <Route path = "/settings" element= {<Settings />}/>
         </Routes>
