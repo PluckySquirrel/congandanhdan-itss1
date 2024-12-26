@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { BsSearch } from 'react-icons/bs';
-import HistoryItem from '../components/HistoryItem';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 const Settings = () => {
   const navigate = useNavigate();
-  const [input, setInput] = useState('');
-  const [user, setUser] = useState({});
+  const [inputs, setInputs] = useState({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const decoded = jwtDecode(cookies.token);
 
   const fetchUser = async () => {
-    const response = await fetch(`http://localhost:8080/api/v1/users/${cookies.token}`, {
+    const response = await fetch(`http://localhost:8080/api/v1/users/${decoded.uuid}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${cookies.token}`
       }
     });
     const data = await response.json();
-    console.log(data);
+    setInputs(data);
   }
 
   useEffect(() => {
@@ -32,16 +32,26 @@ const Settings = () => {
   }, [])
 
   const handleChange = (event) => {
-    setInput(event.target.value);
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
   }
 
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const response = {}
+    const response = await fetch(`http://localhost:8080/api/v1/users/${decoded.uuid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs)
+    });
     setLoading(false);
+    const data = response.json();
 
-    if (!response.ok) {
+    if (!response.ok) {  
+      setError(data.message);
       return;
     }
   }
@@ -60,7 +70,7 @@ const Settings = () => {
             id="username" 
             placeholder="Username"
             className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
-            value={user.username || ''}
+            defaultValue={inputs.username || ''}
             onChange={(e) => handleChange(e)}
             required
           />
@@ -75,7 +85,7 @@ const Settings = () => {
             id="name" 
             placeholder="Name"
             className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
-            value={user.name || ''}
+            defaultValue={inputs.name || ''}
             onChange={(e) => handleChange(e)}
             required
           />
@@ -90,7 +100,7 @@ const Settings = () => {
             id="email" 
             placeholder="E-mail"
             className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
-            value={user.email || ''}
+            defaultValue={inputs.email || ''}
             onChange={(e) => handleChange(e)}
             required
           />
