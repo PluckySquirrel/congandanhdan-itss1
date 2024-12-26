@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  let { id } = useParams();
+  const { token } = useParams();
   const [inputs, setInputs] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -17,13 +17,15 @@ const ResetPassword = () => {
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // nho sir call api ho e nhe :((
-    const response = await fetch('http://localhost:8080/api/v1/users/', {
-      method: 'POST',
+    const response = await fetch('http://localhost:8080/api/v1/users/reset-password', {
+      method: 'PUT',
       headers: { 
         'Content-Type': 'application/json' 
       },
-      body: JSON.stringify(inputs)
+      body: JSON.stringify({
+        token: token,
+        newPassword: inputs.password,
+      })
     });
     const data = await response.json();
     setLoading(false);
