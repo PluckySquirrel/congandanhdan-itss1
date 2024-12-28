@@ -3,11 +3,9 @@ package vn.edu.hust.soict.japango.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.edu.hust.soict.japango.common.enums.ActionType;
+import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
 import vn.edu.hust.soict.japango.dto.history.GetHistoryRequest;
 import vn.edu.hust.soict.japango.dto.history.HistoryDTO;
 import vn.edu.hust.soict.japango.service.HistoryService;
@@ -36,5 +34,10 @@ public class HistoryController {
                 .size(size)
                 .build()
         ));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<DeleteHistoryResponse> deleteHistory() {
+        return ResponseEntity.ok(historyService.deleteHistory());
     }
 }

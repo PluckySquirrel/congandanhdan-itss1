@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import vn.edu.hust.soict.japango.common.enums.ActionType;
 import vn.edu.hust.soict.japango.common.utils.SecurityUtils;
+import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
 import vn.edu.hust.soict.japango.dto.history.GetHistoryRequest;
 import vn.edu.hust.soict.japango.dto.history.HistoryDTO;
 import vn.edu.hust.soict.japango.exception.CustomExceptions;
@@ -40,5 +41,12 @@ public class HistoryServiceImpl implements HistoryService {
         return historyRepository
                 .findByUserIdAndActionInAndCreatedAtBetween(userId, actionTypes, request.getFromDateTime(), request.getToDateTime(), request.getPageable())
                 .map(historyMapper::toDTO);
+    }
+
+    @Override
+    public DeleteHistoryResponse deleteHistory() {
+        long count = historyRepository.count();
+        historyRepository.deleteAll();
+        return DeleteHistoryResponse.builder().numberDeleted(count).build();
     }
 }
