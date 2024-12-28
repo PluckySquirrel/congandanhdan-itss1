@@ -18,4 +18,8 @@ public interface SavedResultRepository extends JpaRepository<SavedResult, Long> 
     void deleteByHistoryUuidAndSaveType(String uuid, SaveType saveType);
 
     Page<SavedResult> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
+
+    @Modifying
+    @Transactional
+    long deleteAllByUserId(Long userId);
 }

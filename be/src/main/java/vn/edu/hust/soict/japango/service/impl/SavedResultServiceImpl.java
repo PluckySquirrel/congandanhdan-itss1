@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vn.edu.hust.soict.japango.common.utils.SecurityUtils;
+import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
+import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponse;
 import vn.edu.hust.soict.japango.dto.saved_result.SavedResultDTO;
 import vn.edu.hust.soict.japango.exception.CustomExceptions;
 import vn.edu.hust.soict.japango.repository.SavedResultRepository;
@@ -30,5 +32,15 @@ public class SavedResultServiceImpl implements SavedResultService {
         return savedResultRepository
                 .findByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(page, size))
                 .map(savedResultMapper::toDTO);
+    }
+
+    @Override
+    public DeleteSavedResultsResponse deleteSavedResults() {
+        Long userId;
+        if ((userId = securityUtils.getUserId()) == null) {
+            throw CustomExceptions.LOGIN_REQUIRED_EXCEPTION;
+        }
+        long count = savedResultRepository.deleteAllByUserId(userId);
+        return DeleteSavedResultsResponse.builder().numberDeleted(count).build();
     }
 }

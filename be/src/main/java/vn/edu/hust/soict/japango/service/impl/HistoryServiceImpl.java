@@ -52,8 +52,11 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public DeleteHistoryResponse deleteHistory() {
-        long count = historyRepository.count();
-        historyRepository.deleteAll();
+        Long userId;
+        if ((userId = securityUtils.getUserId()) == null) {
+            throw CustomExceptions.LOGIN_REQUIRED_EXCEPTION;
+        }
+        long count = historyRepository.deleteAllByUserId(userId);
         return DeleteHistoryResponse.builder().numberDeleted(count).build();
     }
 

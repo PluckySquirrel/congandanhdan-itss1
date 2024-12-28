@@ -3,10 +3,8 @@ package vn.edu.hust.soict.japango.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponse;
 import vn.edu.hust.soict.japango.dto.saved_result.SavedResultDTO;
 import vn.edu.hust.soict.japango.service.SavedResultService;
 
@@ -22,5 +20,10 @@ public class SavedResultController {
             @RequestParam(name = "size", required = false, defaultValue = "${app.request.default-page-size}") int size
     ) {
         return ResponseEntity.ok(savedResultService.getSavedResults(page, size));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<DeleteSavedResultsResponse> deleteSavedResults() {
+        return ResponseEntity.ok(savedResultService.deleteSavedResults());
     }
 }
