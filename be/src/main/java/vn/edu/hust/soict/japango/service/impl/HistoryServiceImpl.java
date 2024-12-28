@@ -46,7 +46,7 @@ public class HistoryServiceImpl implements HistoryService {
             actionTypes = List.of(request.getActionType());
         }
         return historyRepository
-                .findByUserIdAndActionInAndCreatedAtBetweenOrderByCreatedAtDesc(userId, actionTypes, request.getFromDateTime(), request.getToDateTime(), request.getPageable())
+                .findByFilters(userId, request.getKeyword(), actionTypes, request.getFromDateTime(), request.getToDateTime(), request.getPageable())
                 .map(historyMapper::toDTO);
     }
 

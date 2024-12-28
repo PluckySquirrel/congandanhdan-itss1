@@ -21,6 +21,7 @@ public class HistoryController {
 
     @GetMapping
     public ResponseEntity<Page<HistoryDTO>> getHistory(
+            @RequestParam(name = "keyword", required = false) String keyword,
             @RequestParam(name = "action", required = false) ActionType actionType,
             @RequestParam(name = "from", required = false) LocalDate fromDate,
             @RequestParam(name = "to", required = false) LocalDate toDate,
@@ -28,6 +29,7 @@ public class HistoryController {
             @RequestParam(name = "size", required = false, defaultValue = "${app.request.default-page-size}") int size
     ) {
         return ResponseEntity.ok(historyService.getHistory(GetHistoryRequest.builder()
+                .keyword(keyword)
                 .actionType(actionType)
                 .fromDate(fromDate)
                 .toDate(toDate)

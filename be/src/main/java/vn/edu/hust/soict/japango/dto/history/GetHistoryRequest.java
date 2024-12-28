@@ -17,11 +17,17 @@ import java.time.Month;
 @AllArgsConstructor
 @Builder
 public class GetHistoryRequest {
+    private String keyword;
     private ActionType actionType;
     private LocalDate fromDate;
     private LocalDate toDate;
     private int page;
     private int size;
+
+    public String getKeyword() {
+        if (keyword == null) return "";
+        return keyword;
+    }
 
     public LocalDateTime getFromDateTime() {
         if (fromDate == null) return LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0, 0);
