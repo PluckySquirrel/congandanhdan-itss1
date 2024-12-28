@@ -12,10 +12,10 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='relative w-full min-h-16 flex justify-between items-center px-8'>
-      <div>
-        <img src="/logo.svg" className='h-8' />
-      </div>
+    <nav className='relative w-full min-h-20 flex justify-between items-center px-8 border-b border-lightGray'>
+      <a href='/'>
+        <img src="/logo.svg" className='h-10' />
+      </a>
       <div className='h-full gap-8 flex items-center'>
         <a className='w-32 h-full flex items-center justify-center text-lg hover:cursor-pointer hover:bg-lightGray' href='/'>Home</a>
         {

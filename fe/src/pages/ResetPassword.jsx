@@ -41,7 +41,7 @@ const ResetPassword = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-3xl leading-7'>Reset password</h3>
+        <h3 className='text-4xl'>Reset password</h3>
       </div>
       <input 
         type="password" 

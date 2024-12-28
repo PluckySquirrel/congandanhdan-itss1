@@ -43,7 +43,7 @@ const Login = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-3xl leading-7'>Welcome to </h3><img src="/logo.svg" className='h-8' />
+        <h3 className='text-4xl leading-9'>Welcome to </h3><img src="/logo.svg" className='h-10' />
       </div>
       <input 
         type="text" 

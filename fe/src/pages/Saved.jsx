@@ -4,7 +4,7 @@ import HistoryItem from '../components/HistoryItem';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-const History = () => {
+const Saved = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([]);
@@ -47,9 +47,9 @@ const History = () => {
   );
 
   return (
-    <div className='h-full py-8 flex items-start justify-center'>
-      <div className='w-1/2 flex flex-col items-center justify-center gap-4'>
-        <h3 className='text-3xl leading-7'>History</h3>
+    <div className='h-full py-4 flex items-start justify-center'>
+      <div className='w-1/2 flex flex-col items-center justify-center gap-8'>
+        <h3 className='text-3xl leading-7'>Saved history</h3>
         <div className='w-2/3 flex items-center justify-center gap-2'>
           <div className='relative w-full flex items-center pl-2 border border-lightGray rounded-md shadow-md'>
             <div className='text-gray'>
@@ -72,43 +72,6 @@ const History = () => {
             Search
           </button>
         </div>
-
-        <div className='flex items-center justify-center gap-2'>
-          <h4>Show</h4>
-          <select 
-            className='px-4 h-10 flex items-center gap-2 px-4 border border-lightGray shadow-md rounded-md'
-            onChange={() => {}}
-          >
-            <option value='all'>
-              All
-            </option>
-            <option value='liked'>
-              Liked
-            </option>
-            <option value='unliked'>
-              Unliked
-            </option>
-          </select>
-          <h4>history within</h4>
-          <select 
-            className='px-4 w-18 h-10 flex items-center gap-2 px-4 border border-lightGray shadow-md rounded-md'
-            onChange={() => {}}
-          >
-            <option value=''>
-              All
-            </option>
-            <option value={1}>
-              Last 1 day
-            </option>
-            <option value={3}>
-              Last 3 days
-            </option>
-            <option value={7}>
-              Last 7 days
-            </option>
-          </select>
-        </div>
-
         <div className='w-full flex flex-col items-center gap-4'>
           {historyItems}
         </div>
@@ -117,4 +80,4 @@ const History = () => {
   )
 }
 
-export default History
+export default Saved

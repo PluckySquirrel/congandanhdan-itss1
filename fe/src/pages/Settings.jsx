@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import Dialog from '../components/Dialog';
 
 const Settings = () => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
+  const [changed, setChanged] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const [error, setError] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const decoded = jwtDecode(cookies.token);
@@ -34,6 +37,7 @@ const Settings = () => {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    setChanged(true);
     setInputs(values => ({...values, [name]: value}))
   }
 
@@ -47,7 +51,11 @@ const Settings = () => {
       },
       body: JSON.stringify(inputs)
     });
+    setChanged(false);
     setLoading(false);
+    if (response.ok) {
+      setShowDialog(true);
+    }
     const data = response.json();
 
     if (!response.ok) {  
@@ -57,7 +65,7 @@ const Settings = () => {
   }
 
   return (
-    <div className='h-full py-4 flex items-start justify-center'>
+    <div className='h-full py-4 flex items-center justify-center'>
       <form className='w-1/2 flex flex-col items-center justify-center gap-8' onSubmit={submit}>
         <h3 className='text-3xl leading-7'>Settings</h3>
         <div className='w-2/3 flex items-center gap-2'>
@@ -108,10 +116,16 @@ const Settings = () => {
         <button 
           className='px-6 h-12 flex items-center bg-blue text-white text-lg shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled'
           type='submit'
-          disabled={loading}
+          disabled={loading || !changed}
         >
           Save changes
         </button>
+        {showDialog && 
+        <Dialog
+          message='Changes saved'
+          showDialog={showDialog}
+          setShowDialog={setShowDialog}
+        />}
       </form>
     </div>
   )

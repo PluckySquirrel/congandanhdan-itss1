@@ -37,7 +37,7 @@ const Signup = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-3xl leading-7'>Create your</h3><img src="/logo.svg" className='h-8'/> <h3 className='text-3xl leading-7'>account</h3>
+        <h3 className='text-4xl leading-9'>Create your</h3><img src="/logo.svg" className='h-10'/> <h3 className='text-4xl leading-9'>account</h3>
       </div>
       <input 
         type="text" 

@@ -1,9 +1,14 @@
-import { BsMicFill, BsVolumeUpFill } from 'react-icons/bs'
-import React, { useState } from 'react'
+import { BsCopy, BsHandThumbsUpFill, BsMicFill, BsPencilFill, BsVolumeUpFill } from 'react-icons/bs'
+import React, { useEffect, useState } from 'react'
 import getOutputLanguageTag from '../utils/getOutputLanguageTag';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import EditButton from '../components/EditButton';
+import CopyButton from '../components/CopyButton';
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   const [input, setInput] = useState('');
@@ -11,6 +16,12 @@ const Home = () => {
   const [translateLanguage, setTranslateLanguage] = useState('VIETNAMESE');
   const [outputLanguage, setOutputLanguage] = useState('vi');
   const [listening, setListening] = useState(false);
+
+  useEffect(() => {
+    if (!cookies.token) {
+      navigate('/login');
+    }
+  }, [])
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -181,7 +192,7 @@ const Home = () => {
       </div>
       <h1 className='text-3xl'>Output</h1>
       <div className='relative w-1/2 h-44 p-4 my-4 border border-lightGray shadow-md rounded-md'>
-        <p className={`w-full h-32 text-wrap text-left ${output === '' && 'text-gray'}`}>
+        <p className={`w-full h-32 text-wrap text-left ${output === '' && 'text-gray'} caret-transparent`}>
           {output !== '' ? output : 'The output intent expression or translation is displayed here...'}
         </p>
         <button 
@@ -190,6 +201,19 @@ const Home = () => {
         >
           <BsVolumeUpFill size='2rem' />
         </button>
+        <div className='absolute bottom-4 right-4 flex gap-4 text-gray'>
+          <CopyButton output={output} />
+          <button 
+            className='hover:text-darkGray'
+            onClick={() => {}}
+          >
+            <BsHandThumbsUpFill size='1.6rem' />
+          </button>
+          <EditButton
+            output={output}
+            setOutput={setOutput}
+          />
+        </div>
       </div>
     </div>
   )
