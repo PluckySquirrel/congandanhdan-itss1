@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hust.soict.japango.common.enums.ActionType;
 import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
+import vn.edu.hust.soict.japango.dto.history.EditOutputRequest;
 import vn.edu.hust.soict.japango.dto.history.GetHistoryRequest;
 import vn.edu.hust.soict.japango.dto.history.HistoryDTO;
 import vn.edu.hust.soict.japango.service.HistoryService;
@@ -50,6 +51,12 @@ public class HistoryController {
     @PostMapping("/{uuid}/unlike")
     public ResponseEntity<Void> unlikeItem(@PathVariable String uuid) {
         historyService.unlikeItem(uuid);
+        return ResponseEntity.ok(null);
+    }
+
+    @PutMapping("/{uuid}/edit")
+    public ResponseEntity<Void> editOutput(@PathVariable String uuid, @RequestBody EditOutputRequest request) {
+        historyService.editOutput(uuid, request);
         return ResponseEntity.ok(null);
     }
 }

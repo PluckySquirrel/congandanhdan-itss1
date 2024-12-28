@@ -8,6 +8,7 @@ import vn.edu.hust.soict.japango.common.enums.ActionType;
 import vn.edu.hust.soict.japango.common.enums.SaveType;
 import vn.edu.hust.soict.japango.common.utils.SecurityUtils;
 import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
+import vn.edu.hust.soict.japango.dto.history.EditOutputRequest;
 import vn.edu.hust.soict.japango.dto.history.GetHistoryRequest;
 import vn.edu.hust.soict.japango.dto.history.HistoryDTO;
 import vn.edu.hust.soict.japango.entity.History;
@@ -21,6 +22,7 @@ import vn.edu.hust.soict.japango.service.mapper.HistoryMapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +66,7 @@ public class HistoryServiceImpl implements HistoryService {
                 .orElseThrow(() -> CustomExceptions.HISTORY_ITEM_NOT_EXISTS_EXCEPTION);
 
         SavedResult savedResult = historyMapper.toSavedResult(history);
+        savedResult.setUuid(UUID.randomUUID().toString());
         savedResult.setSaveType(SaveType.LIKED);
         savedResultRepository.save(savedResult);
     }
@@ -71,5 +74,17 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public void unlikeItem(String uuid) {
         savedResultRepository.deleteByHistoryUuidAndSaveType(uuid, SaveType.LIKED);
+    }
+
+    @Override
+    public void editOutput(String uuid, EditOutputRequest request) {
+        History history = historyRepository.findByUuid(uuid)
+                .orElseThrow(() -> CustomExceptions.HISTORY_ITEM_NOT_EXISTS_EXCEPTION);
+
+        SavedResult savedResult = historyMapper.toSavedResult(history);
+        savedResult.setUuid(UUID.randomUUID().toString());
+        savedResult.setOutput(request.getNewOutput());
+        savedResult.setSaveType(SaveType.EDITED);
+        savedResultRepository.save(savedResult);
     }
 }
