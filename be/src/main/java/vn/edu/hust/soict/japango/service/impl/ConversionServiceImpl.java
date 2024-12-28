@@ -37,7 +37,7 @@ public class ConversionServiceImpl implements ConversionService {
                 .formatted(getTrainingSentences(), inputDTO.getInput());
         String output = languageModelService.generateContent(text);
 
-        Optional.ofNullable(securityUtils.getUserId()).ifPresent(userId -> {
+        String uuid = Optional.ofNullable(securityUtils.getUserId()).map(userId -> {
             History history = History.builder()
                     .userId(userId)
                     .action(ActionType.INTENT_EXPRESSION)
@@ -45,9 +45,10 @@ public class ConversionServiceImpl implements ConversionService {
                     .output(output)
                     .build();
             historyRepository.save(history);
-        });
+            return history.getUuid();
+        }).orElse(null);
 
-        return OutputDTO.builder().output(output).build();
+        return OutputDTO.builder().output(output).uuid(uuid).build();
     }
 
     private String getTrainingSentences() {
@@ -94,7 +95,7 @@ public class ConversionServiceImpl implements ConversionService {
                 .formatted(inputDTO.getInput());
         String output = languageModelService.generateContent(text);
 
-        Optional.ofNullable(securityUtils.getUserId()).ifPresent(userId -> {
+        String uuid = Optional.ofNullable(securityUtils.getUserId()).map(userId -> {
             History history = History.builder()
                     .userId(userId)
                     .action(ActionType.EASY_JAPANESE_MODE)
@@ -102,9 +103,10 @@ public class ConversionServiceImpl implements ConversionService {
                     .output(output)
                     .build();
             historyRepository.save(history);
-        });
+            return history.getUuid();
+        }).orElse(null);
 
-        return OutputDTO.builder().output(output).build();
+        return OutputDTO.builder().output(output).uuid(uuid).build();
     }
 
     @Override
@@ -117,7 +119,7 @@ public class ConversionServiceImpl implements ConversionService {
                 .formatted(inputDTO.getTargetLanguage().getInJapanese(), inputDTO.getInput());
         String output = languageModelService.generateContent(text);
 
-        Optional.ofNullable(securityUtils.getUserId()).ifPresent(userId -> {
+        String uuid = Optional.ofNullable(securityUtils.getUserId()).map(userId -> {
             History history = History.builder()
                     .userId(userId)
                     .action(ActionType.TRANSLATION)
@@ -126,8 +128,9 @@ public class ConversionServiceImpl implements ConversionService {
                     .output(output)
                     .build();
             historyRepository.save(history);
-        });
+            return history.getUuid();
+        }).orElse(null);
 
-        return OutputDTO.builder().output(output).build();
+        return OutputDTO.builder().output(output).uuid(uuid).build();
     }
 }
