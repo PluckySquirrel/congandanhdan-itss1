@@ -164,13 +164,13 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center py-4">
+    <div className="flex flex-col items-center py-10">
       <h1 className="text-3xl">入力</h1>
       <div className="relative w-1/2 h-44 my-4 border border-lightGray shadow-md rounded-md ">
         <textarea
           name="input"
           id="input"
-          className="w-full h-32 p-4 outline-none resize-none"
+          className="w-full h-32 p-4 outline-none resize-none text-lg bg-white"
           placeholder="何かを入力してください"
           value={input}
           onChange={(e) => handleInputChange(e)}
@@ -224,9 +224,9 @@ const Home = () => {
         </button>
       </div>
       <h1 className="text-3xl">出力</h1>
-      <div className="relative w-1/2 h-44 p-4 my-4 border border-lightGray shadow-md rounded-md">
+      <div className="relative w-1/2 h-44 p-4 my-4 border border-lightGray shadow-md rounded-md bg-white">
         <p
-          className={`w-full h-32 text-wrap text-left ${
+          className={`w-full h-32 text-wrap text-left text-lg ${
             output === "" && "text-gray"
           } caret-transparent`}
         >

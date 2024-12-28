@@ -12,7 +12,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='relative w-full min-h-20 flex justify-between items-center px-8 border-b border-lightGray'>
+    <nav className='relative w-full min-h-20 flex justify-between items-center px-8 border-b border-lightGray bg-white shadow-md'>
       <a href='/'>
         <img src="/logo.svg" className='h-10' />
       </a>

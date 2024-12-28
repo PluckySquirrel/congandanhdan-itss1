@@ -66,7 +66,7 @@ const Settings = () => {
 
   return (
     <div className='h-full py-4 flex items-center justify-center'>
-      <form className='w-1/2 flex flex-col items-center justify-center gap-8' onSubmit={submit}>
+      <form className='w-1/2 flex flex-col items-center justify-center gap-8 bg-white shadow-lg py-4' onSubmit={submit}>
         <h3 className='text-3xl leading-7'>設定</h3>
         <div className='w-2/3 flex items-center gap-2'>
           <div className='w-36 text-start text-lg'>

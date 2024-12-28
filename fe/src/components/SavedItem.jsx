@@ -37,7 +37,7 @@ const SavedItem = (props) => {
   };
 
   return (
-    <div className="relative w-full p-6 flex flex-col gap-2 items-start rounded-md shadow-md">
+    <div className="relative w-full p-6 flex flex-col gap-2 items-start rounded-md shadow-md bg-white">
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-2 text-red">
           <BsFillStarFill />
