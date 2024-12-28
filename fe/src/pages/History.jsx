@@ -11,7 +11,7 @@ const History = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   const fetchHistory = async () => {
-    const response = await fetch(`http://localhost:8080/api/v1/history?page=0&size=20`, {
+    const response = await fetch(`http://localhost:8080/api/v1/history?page=0&size=1000`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${cookies.token}`

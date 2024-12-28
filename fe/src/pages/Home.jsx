@@ -1,4 +1,4 @@
-import { BsCopy, BsHandThumbsUpFill, BsMicFill, BsPencilFill, BsVolumeUpFill } from 'react-icons/bs'
+import { BsCopy, BsHandThumbsUp, BsHandThumbsUpFill, BsMicFill, BsPencilFill, BsVolumeUpFill } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react'
 import getOutputLanguageTag from '../utils/getOutputLanguageTag';
 import { useCookies } from 'react-cookie';
@@ -16,6 +16,8 @@ const Home = () => {
   const [translateLanguage, setTranslateLanguage] = useState('VIETNAMESE');
   const [outputLanguage, setOutputLanguage] = useState('vi');
   const [listening, setListening] = useState(false);
+  const [uuid, setUuid] = useState('');
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     if (!cookies.token) {
@@ -81,6 +83,8 @@ const Home = () => {
 
     if (checkResponse(response, data)) {
       setOutput(data.output);
+      setUuid(data.uuid);
+      setLiked(false);
     }
   }
 
@@ -99,6 +103,8 @@ const Home = () => {
 
     if (checkResponse(response, data)) {
       setOutput(data.output);
+      setUuid(data.uuid);
+      setLiked(false);
     }
   }
 
@@ -117,6 +123,8 @@ const Home = () => {
     
     if (checkResponse(response, data)) {
       setOutput(data.output);
+      setUuid(data.uuid);
+      setLiked(false);
     }
   }
   
@@ -124,6 +132,19 @@ const Home = () => {
     const utterance = new SpeechSynthesisUtterance(phrase);
     utterance.lang = language;
     speechSynthesis.speak(utterance);
+  }
+
+  const toggleLike = async (uuid) => {
+    let action = liked ? 'unlike' : 'like';
+    const response = await fetch(`http://localhost:8080/api/v1/history/${uuid}/${action}`, {
+      method: 'POST',
+      headers: { 
+        'Authorization': cookies.token ? `Bearer ${cookies.token}` : null,
+      }
+    });
+    if (response.ok) {
+      setLiked(!liked);
+    }
   }
 
   return (
@@ -205,9 +226,9 @@ const Home = () => {
           <CopyButton output={output} />
           <button 
             className='hover:text-darkGray'
-            onClick={() => {}}
+            onClick={() => toggleLike(uuid)}
           >
-            <BsHandThumbsUpFill size='1.6rem' />
+            {liked ? <BsHandThumbsUpFill size='1.6rem' /> : <BsHandThumbsUp size='1.6rem' />}
           </button>
           <EditButton
             output={output}
