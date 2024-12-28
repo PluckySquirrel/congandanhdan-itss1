@@ -22,7 +22,8 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
             "AND h.action IN :actionTypes " +
             "AND h.createdAt BETWEEN :from AND :to " +
             "AND (LOWER(h.input) LIKE CONCAT('%', LOWER(:keyword), '%') " +
-            "OR LOWER(h.output) LIKE CONCAT('%', LOWER(:keyword), '%'))")
+            "OR LOWER(h.output) LIKE CONCAT('%', LOWER(:keyword), '%')) " +
+            "ORDER BY h.createdAt DESC")
     Page<History> findByFilters(Long userId, String keyword, List<ActionType> actionTypes, LocalDateTime from, LocalDateTime to, Pageable pageable);
     Optional<History> findByUuid(String uuid);
     @Modifying
