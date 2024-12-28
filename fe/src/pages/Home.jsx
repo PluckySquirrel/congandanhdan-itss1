@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EditButton from "../components/EditButton";
 import CopyButton from "../components/CopyButton";
+import getLanguageFromTag from "../utils/getLanguageFromTag";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Home = () => {
   const handleLanguageChange = (e) => {
     const language = e.target.value;
     setTranslateLanguage(language);
-    setOutputLanguage(getOutputLanguageTag(language));
+    // setOutputLanguage(getOutputLanguageTag(language));
   };
 
   const getVoiceInput = () => {
@@ -121,17 +122,19 @@ const Home = () => {
   const getTranslation = async () => {
     const text = output;
     setOutput("ローディング...");
+    console.log(outputLanguage);
     const response = await fetch("http://localhost:8080/api/v1/translate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: cookies.token ? `Bearer ${cookies.token}` : null,
       },
-      body: JSON.stringify({ targetLanguage: translateLanguage, input: text }),
+      body: JSON.stringify({ sourceLanguage: getLanguageFromTag(outputLanguage), targetLanguage: translateLanguage, input: text }),
     });
     const data = await response.json();
 
     if (checkResponse(response, data)) {
+      setOutputLanguage(getOutputLanguageTag(translateLanguage));
       setOutput(data.output);
       setUuid(data.uuid);
       setLiked(false);

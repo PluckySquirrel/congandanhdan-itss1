@@ -63,7 +63,7 @@ const HistoryItem = (props) => {
         <p className="text-gray">{getDate(timestamp)}</p>
       </div>
       <div className="flex items-start gap-2">
-        <button onClick={() => suaGauGau(input)}>
+        <button onClick={() => suaGauGau(input, getOutputLanguageTag(sourceLanguage))}>
           <BsVolumeUpFill size="1.5rem" />
         </button>
         <h2 className="text-xl font-bold text-left">{input}</h2>

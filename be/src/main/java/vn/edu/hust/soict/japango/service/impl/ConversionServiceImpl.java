@@ -112,17 +112,18 @@ public class ConversionServiceImpl implements ConversionService {
     @Override
     public OutputDTO translate(TranslateInputDTO inputDTO) {
         String text = """
-                次の文を日本語の元の意味に近い形で、スムーズで自然な%sに翻訳してください。翻訳した文だけ書いてください。
+                次の文を%sの元の意味に近い形で、スムーズで自然な%sに翻訳してください。翻訳した文だけ書いてください。
                 文:
                 「%s」
                 """
-                .formatted(inputDTO.getTargetLanguage().getInJapanese(), inputDTO.getInput());
+                .formatted(inputDTO.getSourceLanguage().getInJapanese(), inputDTO.getTargetLanguage().getInJapanese(), inputDTO.getInput());
         String output = languageModelService.generateContent(text);
 
         String uuid = Optional.ofNullable(securityUtils.getUserId()).map(userId -> {
             History history = History.builder()
                     .userId(userId)
                     .action(ActionType.TRANSLATION)
+                    .sourceLanguage(inputDTO.getSourceLanguage())
                     .targetLanguage(inputDTO.getTargetLanguage())
                     .input(inputDTO.getInput())
                     .output(output)

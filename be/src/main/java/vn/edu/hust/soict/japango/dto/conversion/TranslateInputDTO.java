@@ -15,6 +15,13 @@ import vn.edu.hust.soict.japango.common.enums.Language;
 public class TranslateInputDTO {
     @NotEmpty
     private String input;
+    private Language sourceLanguage;
     @NotNull
     private Language targetLanguage;
+
+    public Language getSourceLanguage() {
+        if (sourceLanguage == null)
+            return Language.JAPANESE;
+        return sourceLanguage;
+    }
 }
