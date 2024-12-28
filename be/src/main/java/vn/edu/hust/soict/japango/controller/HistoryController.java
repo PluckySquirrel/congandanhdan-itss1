@@ -42,6 +42,12 @@ public class HistoryController {
         return ResponseEntity.ok(historyService.deleteHistory());
     }
 
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteItem(@PathVariable String uuid) {
+        historyService.deleteItem(uuid);
+        return ResponseEntity.ok(null);
+    }
+
     @PostMapping("/{uuid}/like")
     public ResponseEntity<Void> likeItem(@PathVariable String uuid) {
         historyService.likeItem(uuid);

@@ -61,6 +61,14 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+    public void deleteItem(String uuid) {
+        History history = historyRepository.findByUuid(uuid)
+                .orElseThrow(() -> CustomExceptions.HISTORY_ITEM_NOT_EXISTS_EXCEPTION);
+
+        historyRepository.delete(history);
+    }
+
+    @Override
     public void likeItem(String uuid) {
         if (savedResultRepository.existsByHistoryUuidAndSaveType(uuid, SaveType.LIKED))
             return;
