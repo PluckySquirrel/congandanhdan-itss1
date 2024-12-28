@@ -1,4 +1,4 @@
-package vn.edu.hust.soict.japango.dto.conversion;
+package vn.edu.hust.soict.japango.dto.history;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
