@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ForgotPasswordRequestDTO {
-    @NotEmpty
-    @Email
+    @NotEmpty(message = "メールアドレスを入力してください")
+    @Email(message = "有効なメールアドレスを入力してください")
     private String email;
 }

@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AuthenticateRequestDTO {
-    @NotEmpty
+    @NotEmpty(message = "ユーザー名を入力してください")
     private String username;
-    @NotEmpty
+    @NotEmpty(message = "パスワードを入力してください")
     private String password;
 }

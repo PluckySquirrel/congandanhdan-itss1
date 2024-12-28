@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ChangePasswordRequestDTO {
-    @NotEmpty
+    @NotEmpty(message = "旧パスワードを入力してください")
     private String oldPassword;
-    @NotEmpty
-    @Size(min = 8, message = "should contain at least 8 characters")
+    @NotEmpty(message = "新しいパスワードを入力してください")
+    @Size(min = 8, message = "新しいパスワードは8文字以上である必要があります")
     private String newPassword;
 }

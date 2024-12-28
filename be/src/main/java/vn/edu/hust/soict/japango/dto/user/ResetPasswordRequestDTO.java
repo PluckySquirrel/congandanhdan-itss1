@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ResetPasswordRequestDTO {
     @NotEmpty
     private String token;
-    @NotEmpty
-    @Size(min = 8, message = "should contain at least 8 characters")
+    @NotEmpty(message = "新しいパスワードを入力してください")
+    @Size(min = 8, message = "新しいパスワードは8文字以上である必要があります")
     private String newPassword;
 }

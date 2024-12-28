@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         ErrorDTO errorDTO = ErrorDTO.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .errorCode(1001)
-                .message("Field error: " + error.getField() + " " + error.getDefaultMessage())
+                .message(error.getDefaultMessage())
                 .build();
         return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
     }

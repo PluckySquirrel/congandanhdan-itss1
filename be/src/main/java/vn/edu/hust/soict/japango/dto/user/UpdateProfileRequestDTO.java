@@ -13,13 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UpdateProfileRequestDTO {
-    @NotEmpty
-    @Pattern(regexp = "[A-Za-z0-9_]+", message = "should only contain letters, digits or underscores")
+    @NotEmpty(message = "ユーザー名を入力してください")
+    @Pattern(regexp = "[A-Za-z0-9_]+", message = "ユーザー名は文字、数字、またはアンダースコアのみを含むべきです")
     private String username;
-    @NotEmpty
-    @Pattern(regexp = "[A-Za-z\\s]+", message = "should contain letters only")
+    @NotEmpty(message = "名前を入力してください")
     private String name;
-    @NotEmpty
-    @Email
+    @NotEmpty(message = "メールアドレスを入力してください")
+    @Email(message = "有効なメールアドレスを入力してください")
     private String email;
 }

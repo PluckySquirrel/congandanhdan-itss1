@@ -15,6 +15,12 @@ const Signup = () => {
 
   const submit = async (e) => {
     e.preventDefault();
+
+    if (inputs.password !== inputs.confirmPassword) {
+      setError('パスワードが一致しません');
+      return;
+    }
+
     setLoading(true);
     const response = await fetch('http://localhost:8080/api/v1/users/register', {
       method: 'POST',

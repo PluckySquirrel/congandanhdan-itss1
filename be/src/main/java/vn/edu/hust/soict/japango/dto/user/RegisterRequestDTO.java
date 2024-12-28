@@ -14,16 +14,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RegisterRequestDTO {
-    @NotEmpty
-    @Pattern(regexp = "[A-Za-z0-9_]+", message = "should only contain letters, digits or underscores")
+    @NotEmpty(message = "ユーザー名を入力してください")
+    @Pattern(regexp = "[A-Za-z0-9_]+", message = "ユーザー名は文字、数字、またはアンダースコアのみを含むべきです")
     private String username;
-    @NotEmpty
-    @Size(min = 8, message = "should contain at least 8 characters")
+    @NotEmpty(message = "パスワードを入力してください")
+    @Size(min = 8, message = "パスワードは8文字以上である必要があります")
     private String password;
-    @NotEmpty
-    @Pattern(regexp = "[A-Za-z\\s]+", message = "should contain letters only")
+    @NotEmpty(message = "名前を入力してください")
     private String name;
-    @NotEmpty
-    @Email
+    @NotEmpty(message = "メールアドレスを入力してください")
+    @Email(message = "有効なメールアドレスを入力してください")
     private String email;
 }
