@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import History from './pages/History';
 import Settings from './pages/Settings';
 import ResetPassword from './pages/ResetPassword';
+import Saved from './pages/Saved';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path = "/forgot-password" element= {<ForgotPassword />}/>
           <Route path = "/resetpassword/:token" element= {<ResetPassword />}/>
           <Route path = "/history" element= {<History />}/>
+          <Route path = "/saved" element= {<Saved />}/>
           <Route path = "/settings" element= {<Settings />}/>
         </Routes>
       </BrowserRouter>

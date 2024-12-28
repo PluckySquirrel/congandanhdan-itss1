@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import Dialog from '../components/Dialog';
 
 const ForgotPassword = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showDialog, setShowDialog] = useState(false);
 
   const handleChange = (event) => {
     setInput(event.target.value)
@@ -21,6 +23,9 @@ const ForgotPassword = () => {
     });
     const data = await response.json();
     setLoading(false);
+    if (response.ok) {
+      setShowDialog(true);
+    }
 
     if (!response.ok) {
       setError(data.message);
@@ -31,7 +36,7 @@ const ForgotPassword = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-3xl leading-7'>Forgot password</h3>
+        <h3 className='text-4xl'>Forgot password</h3>
       </div>
       <input 
         type="email" 
@@ -51,6 +56,13 @@ const ForgotPassword = () => {
       >
         Send password reset e-mail
       </button>
+      {showDialog && 
+        <Dialog
+          message='Password reset e-mail sent'
+          showDialog={showDialog}
+          setShowDialog={setShowDialog}
+        />
+      }
     </form>
   )
 }
