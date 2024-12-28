@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponse;
+import vn.edu.hust.soict.japango.dto.saved_result.GetSavedResultsRequest;
 import vn.edu.hust.soict.japango.dto.saved_result.SavedResultDTO;
 import vn.edu.hust.soict.japango.service.SavedResultService;
 
@@ -16,10 +17,16 @@ public class SavedResultController {
 
     @GetMapping
     public ResponseEntity<Page<SavedResultDTO>> getSavedResults(
+            @RequestParam(name = "keyword", required = false) String keyword,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "${app.request.default-page-size}") int size
     ) {
-        return ResponseEntity.ok(savedResultService.getSavedResults(page, size));
+        return ResponseEntity.ok(savedResultService.getSavedResults(GetSavedResultsRequest.builder()
+                .keyword(keyword)
+                .page(page)
+                .size(size)
+                .build())
+        );
     }
 
     @DeleteMapping

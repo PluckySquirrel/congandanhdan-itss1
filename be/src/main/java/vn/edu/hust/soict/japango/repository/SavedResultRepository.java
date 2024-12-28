@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import vn.edu.hust.soict.japango.common.enums.SaveType;
@@ -26,4 +27,11 @@ public interface SavedResultRepository extends JpaRepository<SavedResult, Long> 
     long deleteAllByUserId(Long userId);
 
     Optional<SavedResult> findByUuid(String uuid);
+
+    @Query("SELECT s FROM SavedResult s " +
+            "WHERE s.userId = :userId " +
+            "AND (LOWER(s.input) LIKE CONCAT('%', LOWER(:keyword), '%') " +
+            "OR LOWER(s.output) LIKE CONCAT('%', LOWER(:keyword), '%')) " +
+            "ORDER BY s.createdAt DESC")
+    Page<SavedResult> findByUserIdAndKeyword(Long userId, String keyword, Pageable pageable);
 }
