@@ -1,4 +1,4 @@
-package vn.edu.hust.soict.japango.dto.history;
+package vn.edu.hust.soict.japango.dto.saved_result;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DeleteHistoryResponse {
+public class DeleteSavedResultsResponseDTO {
     private Long numberDeleted;
 }

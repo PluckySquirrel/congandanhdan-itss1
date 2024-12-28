@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetSavedResultsRequest {
+public class GetSavedResultsRequestDTO {
     private String keyword;
     private int page;
     private int size;

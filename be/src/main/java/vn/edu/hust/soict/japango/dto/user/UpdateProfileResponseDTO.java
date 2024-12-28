@@ -16,5 +16,6 @@ public class UpdateProfileResponseDTO {
     private String username;
     private String name;
     private String email;
+    private String avatarUrl;
     private LocalDateTime updatedAt;
 }

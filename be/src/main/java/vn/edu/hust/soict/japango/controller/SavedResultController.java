@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponse;
-import vn.edu.hust.soict.japango.dto.saved_result.GetSavedResultsRequest;
+import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponseDTO;
+import vn.edu.hust.soict.japango.dto.saved_result.GetSavedResultsRequestDTO;
 import vn.edu.hust.soict.japango.dto.saved_result.SavedResultDTO;
 import vn.edu.hust.soict.japango.service.SavedResultService;
 
@@ -21,7 +21,7 @@ public class SavedResultController {
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "${app.request.default-page-size}") int size
     ) {
-        return ResponseEntity.ok(savedResultService.getSavedResults(GetSavedResultsRequest.builder()
+        return ResponseEntity.ok(savedResultService.getSavedResults(GetSavedResultsRequestDTO.builder()
                 .keyword(keyword)
                 .page(page)
                 .size(size)
@@ -30,7 +30,7 @@ public class SavedResultController {
     }
 
     @DeleteMapping
-    public ResponseEntity<DeleteSavedResultsResponse> deleteSavedResults() {
+    public ResponseEntity<DeleteSavedResultsResponseDTO> deleteSavedResults() {
         return ResponseEntity.ok(savedResultService.deleteSavedResults());
     }
 

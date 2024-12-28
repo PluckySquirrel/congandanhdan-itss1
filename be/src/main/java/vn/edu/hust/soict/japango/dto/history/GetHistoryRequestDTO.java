@@ -16,7 +16,7 @@ import java.time.Month;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetHistoryRequest {
+public class GetHistoryRequestDTO {
     private String keyword;
     private ActionType actionType;
     private LocalDate fromDate;

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import vn.edu.hust.soict.japango.common.enums.ActionType;
 import vn.edu.hust.soict.japango.common.enums.SaveType;
 import vn.edu.hust.soict.japango.common.utils.SecurityUtils;
-import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
-import vn.edu.hust.soict.japango.dto.history.EditOutputRequest;
-import vn.edu.hust.soict.japango.dto.history.GetHistoryRequest;
+import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponseDTO;
+import vn.edu.hust.soict.japango.dto.history.EditOutputRequestDTO;
+import vn.edu.hust.soict.japango.dto.history.GetHistoryRequestDTO;
 import vn.edu.hust.soict.japango.dto.history.HistoryDTO;
 import vn.edu.hust.soict.japango.entity.History;
 import vn.edu.hust.soict.japango.entity.SavedResult;
@@ -34,7 +34,7 @@ public class HistoryServiceImpl implements HistoryService {
     private final SavedResultRepository savedResultRepository;
 
     @Override
-    public Page<HistoryDTO> getHistory(GetHistoryRequest request) {
+    public Page<HistoryDTO> getHistory(GetHistoryRequestDTO request) {
         Long userId;
         if ((userId = securityUtils.getUserId()) == null) {
             throw CustomExceptions.LOGIN_REQUIRED_EXCEPTION;
@@ -51,13 +51,13 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public DeleteHistoryResponse deleteHistory() {
+    public DeleteHistoryResponseDTO deleteHistory() {
         Long userId;
         if ((userId = securityUtils.getUserId()) == null) {
             throw CustomExceptions.LOGIN_REQUIRED_EXCEPTION;
         }
         long count = historyRepository.deleteAllByUserId(userId);
-        return DeleteHistoryResponse.builder().numberDeleted(count).build();
+        return DeleteHistoryResponseDTO.builder().numberDeleted(count).build();
     }
 
     @Override
@@ -97,7 +97,7 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public void editOutput(String uuid, EditOutputRequest request) {
+    public void editOutput(String uuid, EditOutputRequestDTO request) {
         History history = historyRepository.findByUuid(uuid)
                 .orElseThrow(() -> CustomExceptions.HISTORY_ITEM_NOT_EXISTS_EXCEPTION);
 

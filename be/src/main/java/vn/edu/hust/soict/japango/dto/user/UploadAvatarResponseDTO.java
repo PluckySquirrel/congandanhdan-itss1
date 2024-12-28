@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetProfileResponseDTO {
-    private String username;
-    private String name;
-    private String email;
-    private String avatarUrl;
+public class UploadAvatarResponseDTO {
+    private String url;
 }

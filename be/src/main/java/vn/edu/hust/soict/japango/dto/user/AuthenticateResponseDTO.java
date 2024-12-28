@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuthenticateResponseDTO {
     private String accessToken;
+    private String avatarUrl;
 }

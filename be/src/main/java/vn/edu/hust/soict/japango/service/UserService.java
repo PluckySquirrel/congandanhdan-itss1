@@ -1,5 +1,6 @@
 package vn.edu.hust.soict.japango.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import vn.edu.hust.soict.japango.dto.user.*;
 
 public interface UserService {
@@ -11,4 +12,5 @@ public interface UserService {
     ForgotPasswordResponseDTO forgotPassword(ForgotPasswordRequestDTO request);
     VerifyTokenResponseDTO verifyToken(VerifyTokenRequestDTO request);
     ResetPasswordResponseDTO resetPassword(ResetPasswordRequestDTO request);
+    UploadAvatarResponseDTO uploadAvatar(String uuid, MultipartFile file);
 }

@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import vn.edu.hust.soict.japango.common.enums.SaveType;
 import vn.edu.hust.soict.japango.common.utils.SecurityUtils;
-import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponse;
-import vn.edu.hust.soict.japango.dto.saved_result.GetSavedResultsRequest;
+import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponseDTO;
+import vn.edu.hust.soict.japango.dto.saved_result.GetSavedResultsRequestDTO;
 import vn.edu.hust.soict.japango.dto.saved_result.SavedResultDTO;
 import vn.edu.hust.soict.japango.entity.SavedResult;
 import vn.edu.hust.soict.japango.exception.CustomExceptions;
@@ -26,7 +26,7 @@ public class SavedResultServiceImpl implements SavedResultService {
     private final HistoryRepository historyRepository;
 
     @Override
-    public Page<SavedResultDTO> getSavedResults(GetSavedResultsRequest request) {
+    public Page<SavedResultDTO> getSavedResults(GetSavedResultsRequestDTO request) {
         Long userId;
         if ((userId = securityUtils.getUserId()) == null) {
             throw CustomExceptions.LOGIN_REQUIRED_EXCEPTION;
@@ -38,13 +38,13 @@ public class SavedResultServiceImpl implements SavedResultService {
     }
 
     @Override
-    public DeleteSavedResultsResponse deleteSavedResults() {
+    public DeleteSavedResultsResponseDTO deleteSavedResults() {
         Long userId;
         if ((userId = securityUtils.getUserId()) == null) {
             throw CustomExceptions.LOGIN_REQUIRED_EXCEPTION;
         }
         long count = savedResultRepository.deleteAllByUserId(userId);
-        return DeleteSavedResultsResponse.builder().numberDeleted(count).build();
+        return DeleteSavedResultsResponseDTO.builder().numberDeleted(count).build();
     }
 
     @Override

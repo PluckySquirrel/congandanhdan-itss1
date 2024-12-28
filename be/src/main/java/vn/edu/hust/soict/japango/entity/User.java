@@ -32,4 +32,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private UserRole role = UserRole.USER;
+
+    private String avatarUrl;
 }

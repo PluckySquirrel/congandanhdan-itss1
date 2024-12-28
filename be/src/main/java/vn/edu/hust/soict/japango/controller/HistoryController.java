@@ -5,9 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hust.soict.japango.common.enums.ActionType;
-import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
-import vn.edu.hust.soict.japango.dto.history.EditOutputRequest;
-import vn.edu.hust.soict.japango.dto.history.GetHistoryRequest;
+import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponseDTO;
+import vn.edu.hust.soict.japango.dto.history.EditOutputRequestDTO;
+import vn.edu.hust.soict.japango.dto.history.GetHistoryRequestDTO;
 import vn.edu.hust.soict.japango.dto.history.HistoryDTO;
 import vn.edu.hust.soict.japango.service.HistoryService;
 
@@ -28,7 +28,7 @@ public class HistoryController {
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "${app.request.default-page-size}") int size
     ) {
-        return ResponseEntity.ok(historyService.getHistory(GetHistoryRequest.builder()
+        return ResponseEntity.ok(historyService.getHistory(GetHistoryRequestDTO.builder()
                 .keyword(keyword)
                 .actionType(actionType)
                 .fromDate(fromDate)
@@ -40,7 +40,7 @@ public class HistoryController {
     }
 
     @DeleteMapping
-    public ResponseEntity<DeleteHistoryResponse> deleteHistory() {
+    public ResponseEntity<DeleteHistoryResponseDTO> deleteHistory() {
         return ResponseEntity.ok(historyService.deleteHistory());
     }
 
@@ -63,7 +63,7 @@ public class HistoryController {
     }
 
     @PutMapping("/{uuid}/edit")
-    public ResponseEntity<Void> editOutput(@PathVariable String uuid, @RequestBody EditOutputRequest request) {
+    public ResponseEntity<Void> editOutput(@PathVariable String uuid, @RequestBody EditOutputRequestDTO request) {
         historyService.editOutput(uuid, request);
         return ResponseEntity.ok(null);
     }

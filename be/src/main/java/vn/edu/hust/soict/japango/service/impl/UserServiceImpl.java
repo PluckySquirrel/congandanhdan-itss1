@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import vn.edu.hust.soict.japango.common.constants.TemplateParams;
 import vn.edu.hust.soict.japango.common.enums.Mail;
 import vn.edu.hust.soict.japango.common.enums.TokenType;
@@ -19,6 +20,7 @@ import vn.edu.hust.soict.japango.exception.CustomExceptions;
 import vn.edu.hust.soict.japango.exception.ResourceNotFoundException;
 import vn.edu.hust.soict.japango.repository.TokenRepository;
 import vn.edu.hust.soict.japango.repository.UserRepository;
+import vn.edu.hust.soict.japango.service.FileService;
 import vn.edu.hust.soict.japango.service.MailService;
 import vn.edu.hust.soict.japango.service.UserService;
 import vn.edu.hust.soict.japango.service.mapper.UserMapper;
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private final TokenRepository tokenRepository;
     private final MailService mailService;
     private final DateTimeFormatter dateTimeFormatter;
+    private final FileService fileService;
 
     @Value("${app.security.secret-key}")
     private String secretKey;
@@ -67,6 +70,7 @@ public class UserServiceImpl implements UserService {
         String accessToken = generateAccessToken(user);
         return AuthenticateResponseDTO.builder()
                 .accessToken(accessToken)
+                .avatarUrl(user.getAvatarUrl())
                 .build();
     }
 
@@ -123,13 +127,16 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUuid(uuid)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "uuid", uuid));
 
-        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw CustomExceptions.USERNAME_USED_EXCEPTION;
-        }
+        userRepository.findByUsername(request.getUsername()).ifPresent(u -> {
+            if (!u.getId().equals(user.getId())) {
+                throw CustomExceptions.USERNAME_USED_EXCEPTION;
+            }
+        });
 
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw CustomExceptions.EMAIL_USED_EXCEPTION;
-        }
+        userRepository.findByEmail(request.getEmail()).ifPresent(u -> {
+            if (!u.getId().equals(user.getId()))
+                throw CustomExceptions.EMAIL_USED_EXCEPTION;
+        });
 
         userMapper.updateEntity(user, request);
         userRepository.save(user);
@@ -219,5 +226,19 @@ public class UserServiceImpl implements UserService {
         tokenRepository.save(token);
 
         return userMapper.toResetPasswordResponseDTO(user);
+    }
+
+    @Override
+    public UploadAvatarResponseDTO uploadAvatar(String uuid, MultipartFile file) {
+        User user = userRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "uuid", uuid));
+
+        Map response = fileService.upload(file);
+        String url = (String) response.get("url");
+
+        user.setAvatarUrl(url);
+        userRepository.save(user);
+
+        return UploadAvatarResponseDTO.builder().url(url).build();
     }
 }

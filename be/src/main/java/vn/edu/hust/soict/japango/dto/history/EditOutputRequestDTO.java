@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EditOutputRequest {
+public class EditOutputRequestDTO {
     private String newOutput;
 }

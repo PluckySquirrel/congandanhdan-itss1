@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-const Login = () => {
+const Login = (props) => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -32,6 +32,8 @@ const Login = () => {
       setError(data.message);
       return;
     }
+
+    props.setAvatar(data.avatarUrl);
 
     setCookie('token', data.accessToken, {
       secure: true,

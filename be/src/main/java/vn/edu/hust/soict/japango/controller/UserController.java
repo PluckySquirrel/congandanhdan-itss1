@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import vn.edu.hust.soict.japango.dto.user.*;
 import vn.edu.hust.soict.japango.service.UserService;
 
@@ -57,5 +58,10 @@ public class UserController {
     @PutMapping("/reset-password")
     ResponseEntity<ResetPasswordResponseDTO> resetPassword(@RequestBody @Valid ResetPasswordRequestDTO request) {
         return ResponseEntity.ok(userService.resetPassword(request));
+    }
+
+    @PostMapping("/{uuid}/upload-avatar")
+    public ResponseEntity<UploadAvatarResponseDTO> uploadImage(@PathVariable String uuid, @RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(userService.uploadAvatar(uuid, file));
     }
 }
