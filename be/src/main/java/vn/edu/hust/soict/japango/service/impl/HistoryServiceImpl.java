@@ -46,7 +46,7 @@ public class HistoryServiceImpl implements HistoryService {
             actionTypes = List.of(request.getActionType());
         }
         return historyRepository
-                .findByUserIdAndActionInAndCreatedAtBetween(userId, actionTypes, request.getFromDateTime(), request.getToDateTime(), request.getPageable())
+                .findByUserIdAndActionInAndCreatedAtBetweenOrderByCreatedAtDesc(userId, actionTypes, request.getFromDateTime(), request.getToDateTime(), request.getPageable())
                 .map(historyMapper::toDTO);
     }
 
@@ -80,11 +80,20 @@ public class HistoryServiceImpl implements HistoryService {
         savedResult.setUuid(UUID.randomUUID().toString());
         savedResult.setSaveType(SaveType.LIKED);
         savedResultRepository.save(savedResult);
+
+        history.setLiked(true);
+        historyRepository.save(history);
     }
 
     @Override
     public void unlikeItem(String uuid) {
+        History history = historyRepository.findByUuid(uuid)
+                .orElseThrow(() -> CustomExceptions.HISTORY_ITEM_NOT_EXISTS_EXCEPTION);
+
         savedResultRepository.deleteByHistoryUuidAndSaveType(uuid, SaveType.LIKED);
+
+        history.setLiked(false);
+        historyRepository.save(history);
     }
 
     @Override

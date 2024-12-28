@@ -40,4 +40,7 @@ public class History extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Language targetLanguage = Language.JAPANESE;
+
+    @Builder.Default
+    private Boolean liked = Boolean.FALSE;
 }

@@ -20,5 +20,6 @@ public class HistoryDTO {
     private String output;
     private Language sourceLanguage;
     private Language targetLanguage;
+    private Boolean liked;
     private LocalDateTime timestamp;
 }
