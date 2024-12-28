@@ -27,14 +27,18 @@ public class ConversionServiceImpl implements ConversionService {
 
     @Override
     public OutputDTO expressIntent(InputDTO inputDTO) {
+//        String text = """
+//                次の文を話し手の意図や希望がより明確になるように言い換えてください。:「%s」
+//                それは「締め切りは金曜日なので、終わったら知らせてください」という文だったら、「締め切りは金曜日ですが、私はできるだけ早く課題を確認し、フィードバックを提供したいと考えています。そのため、課題が終わり次第、すぐにご連絡いただけるとありがたいです。」を出力してください、
+//                また、%s、それ以外の文であってもその感じで書き直してください。言い換えた文の一つだけを書いて、他のことは書かないでください。N3以下のレベルの簡単な言葉を使ってください。
+//                """
         String text = """
-                次の文を話し手の意図や希望がより明確になるように言い換えてください。
-                例えば、「締め切りは金曜日なので、終わったら知らせてください」という文を、より具体的に「締め切りは金曜日ですが、私はできるだけ早く課題を確認し、フィードバックを提供したいと考えています。そのため、課題が終わり次第、すぐにご連絡いただけるとありがたいです。」のように、
-                また例えば、%s以下の文を書き直してください。言い換えた文の一つだけを書いて、他のことは書かないでください。N3以下のレベルの簡単な言葉を使ってください。
-                文:
-                「%s」
+                Please rephrase the following sentence as long as possible so that the speaker's intent or desire becomes as clear as possible: '%s'
+                If the sentence is '締め切りは金曜日なので、終わったら知らせてください' rephrase it as '締め切りは金曜日ですが、私はできるだけ早く課題を確認し、フィードバックを提供したいと考えています。そのため、課題が終わり次第、すぐにご連絡いただけるとありがたいです。'
+                %s
+                If the sentence is not of the above cases, also rewrite it in the same manner. Write only the rephrased sentence and do not include anything else. Use simple words that are at or below the N3 level 
                 """
-                .formatted(getTrainingSentences(), inputDTO.getInput());
+                .formatted(inputDTO.getInput(), getTrainingSentences());
         String output = languageModelService.generateContent(text);
 
         String uuid = Optional.ofNullable(securityUtils.getUserId()).map(userId -> {
@@ -76,11 +80,17 @@ public class ConversionServiceImpl implements ConversionService {
         sentences.putAll(map2);
 
         StringBuilder sb = new StringBuilder();
+//        sentences.forEach((key, value) -> sb
+//                .append("「").append(key).append("」")
+//                .append("という文だったら")
+//                .append("「").append(key).append("」")
+//                .append("を出力して、\n"));
         sentences.forEach((key, value) -> sb
+                .append("If the sentence is ")
                 .append("「").append(key).append("」")
-                .append("という文を、より具体的に")
+                .append(" rephrase it as ")
                 .append("「").append(key).append("」")
-                .append("のように、"));
+                .append("\n"));
 
         return sb.toString();
     }
