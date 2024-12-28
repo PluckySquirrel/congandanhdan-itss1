@@ -25,11 +25,21 @@ const EditButton = (props) => {
     setInput(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    props.setOutput(input);
-    setShow(false);
-    setShowDialog(true);
+
+    const response = await fetch(`http://localhost:8080/api/v1/history/${props.uuid}/edit`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({newOutput: input})
+    });
+    if (response.ok) {
+      props.setOutput(input);
+      setShow(false);
+      setShowDialog(true);
+    }
   }
 
   return (

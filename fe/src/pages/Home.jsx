@@ -233,6 +233,7 @@ const Home = () => {
           <EditButton
             output={output}
             setOutput={setOutput}
+            uuid={uuid}
           />
         </div>
       </div>
