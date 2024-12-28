@@ -8,4 +8,6 @@ import vn.edu.hust.soict.japango.dto.history.HistoryDTO;
 public interface HistoryService {
     Page<HistoryDTO> getHistory(GetHistoryRequest request);
     DeleteHistoryResponse deleteHistory();
+    void likeItem(String uuid);
+    void unlikeItem(String uuid);
 }

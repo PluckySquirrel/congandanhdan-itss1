@@ -11,5 +11,6 @@ public interface HistoryMapper {
     @Mapping(target = "timestamp", source = "createdAt")
     HistoryDTO toDTO(History history);
 
+    @Mapping(target = "historyUuid", source = "uuid")
     SavedResult toSavedResult(History history);
 }

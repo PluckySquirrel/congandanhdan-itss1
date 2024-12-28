@@ -9,9 +9,11 @@ import vn.edu.hust.soict.japango.entity.History;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long> {
     Page<History> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
     Page<History> findByUserIdAndActionInAndCreatedAtBetween(Long userId, List<ActionType> actionTypes, LocalDateTime from, LocalDateTime to, Pageable pageable);
+    Optional<History> findByUuid(String uuid);
 }

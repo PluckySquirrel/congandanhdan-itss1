@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import vn.edu.hust.soict.japango.common.enums.ActionType;
 import vn.edu.hust.soict.japango.common.enums.Language;
+import vn.edu.hust.soict.japango.common.enums.SaveType;
 
 import java.util.UUID;
 
@@ -21,6 +22,8 @@ public class SavedResult extends BaseEntity {
 
     @Builder.Default
     private String uuid = UUID.randomUUID().toString();
+
+    private String historyUuid;
 
     private Long userId;
 
@@ -40,4 +43,7 @@ public class SavedResult extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Language targetLanguage = Language.JAPANESE;
+
+    @Enumerated(EnumType.STRING)
+    private SaveType saveType;
 }
