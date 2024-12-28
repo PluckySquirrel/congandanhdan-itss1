@@ -19,7 +19,7 @@ const CopyButton = (props) => {
       </button>
       {showDialog && 
         <Dialog
-          message='Copied to clipboard'
+          message='クリップボードにコピーされました'
           showDialog={showDialog}
           setShowDialog={setShowDialog}
         />

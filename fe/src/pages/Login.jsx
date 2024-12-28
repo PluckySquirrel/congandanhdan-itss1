@@ -43,13 +43,13 @@ const Login = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-4xl leading-9'>Welcome to </h3><img src="/logo.svg" className='h-10' />
+        <img src="/logo.svg" className='h-10' /><h3 className='text-4xl leading-9'>へようこそ</h3>
       </div>
       <input 
         type="text" 
         name="username" 
         id="username" 
-        placeholder="Username"
+        placeholder="ユーザー名"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.username || ''}
         onChange={(e) => handleChange(e)}
@@ -59,7 +59,7 @@ const Login = () => {
         type="password" 
         name="password" 
         id="password" 
-        placeholder="Password"
+        placeholder="パスワード"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.password || ''}
         onChange={(e) => handleChange(e)}
@@ -71,11 +71,11 @@ const Login = () => {
         type='submit'
         disabled={loading}
       >
-        Sign in
+        ログイン
       </button>
       <div>
-        <span className='text-lg'>Don't have an account?</span> <span className='text-red text-lg hover:underline'><a href="/signup">Sign up</a></span>
-        <div className='mt-2 text-red text-lg hover:underline'><a href="/forgot-password">Forgotten password?</a></div>
+        <span className='text-lg'>アカウントをお持ちでないですか？</span> <span className='text-red text-lg hover:underline'><a href="/signup">登録</a></span>
+        <div className='mt-2 text-red text-lg hover:underline'><a href="/forgot-password">パスワードを忘れましたか？</a></div>
       </div>
     </form>
   )

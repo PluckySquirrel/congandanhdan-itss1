@@ -37,13 +37,13 @@ const Signup = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-4xl leading-9'>Create your</h3><img src="/logo.svg" className='h-10'/> <h3 className='text-4xl leading-9'>account</h3>
+        <img src="/logo.svg" className='h-10'/> <h3 className='text-4xl leading-9'>アカウントを作成</h3>
       </div>
       <input 
         type="text" 
         name="username" 
         id="username" 
-        placeholder="Username"
+        placeholder="ユーザー名"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.username || ''}
         onChange={(e) => handleChange(e)}
@@ -53,7 +53,7 @@ const Signup = () => {
         type="text" 
         name="name" 
         id="name" 
-        placeholder="Name"
+        placeholder="名前"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.name || ''}
         onChange={(e) => handleChange(e)}
@@ -63,7 +63,7 @@ const Signup = () => {
         type="email" 
         name="email" 
         id="email" 
-        placeholder="E-mail"
+        placeholder="メールアドレス"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.email || ''}
         onChange={(e) => handleChange(e)}
@@ -73,7 +73,7 @@ const Signup = () => {
         type="password" 
         name="password" 
         id="password" 
-        placeholder="Password"
+        placeholder="パスワード"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.password || ''}
         onChange={(e) => handleChange(e)}
@@ -83,7 +83,7 @@ const Signup = () => {
         type="password" 
         name="confirmPassword" 
         id="confirmPassword" 
-        placeholder="Confirm password"
+        placeholder="パスワードを再入力"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.confirmPassword || ''}
         onChange={(e) => handleChange(e)}
@@ -95,10 +95,10 @@ const Signup = () => {
         type='submit'
         disabled={loading}
       >
-        Create account
+        アカウントを作成する
       </button>
       <div>
-        <span className='text-lg'>Already have an account?</span> <span className='text-red text-lg hover:underline'><a href="/login">Sign in</a></span>
+        <span className='text-lg'>すでにアカウントをお持ちですか？</span> <span className='text-red text-lg hover:underline'><a href="/login">ログイン</a></span>
       </div>
     </form>
   )

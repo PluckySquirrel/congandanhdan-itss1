@@ -53,7 +53,7 @@ const History = () => {
   const deleteAll = async () => {
     if (
       window.confirm(
-        "Are you sure you want to delete all items in your history?"
+        "履歴のすべてのアイテムを削除してもよろしいですか？"
       )
     ) {
       const response = await fetch(`http://localhost:8080/api/v1/history`, {
@@ -98,7 +98,7 @@ const History = () => {
   return (
     <div className="h-full py-8 flex items-start justify-center">
       <div className="w-1/2 flex flex-col items-center justify-center gap-4">
-        <h3 className="text-3xl leading-7">History</h3>
+        <h3 className="text-3xl leading-7">歴史</h3>
         <div className="w-2/3 flex items-center justify-center gap-2">
           <div className="relative w-full flex items-center pl-2 border border-lightGray rounded-md shadow-md">
             <div className="text-gray">
@@ -108,7 +108,7 @@ const History = () => {
               type="search"
               name="search"
               id="search"
-              placeholder="Search history by keywords"
+              placeholder="キーワードで履歴を検索する"
               className="w-full p-2 bg-transparent outline-none"
               value={input}
               onChange={(e) => handleChange(e)}
@@ -121,37 +121,37 @@ const History = () => {
           </div>
 
           <button
-            className="px-4 h-10 flex items-center px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled"
+            className="px-4 h-10 w-20 flex items-center justify-center px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled"
             onClick={() => fetchHistory()}
           >
-            Search
+            検索
           </button>
         </div>
 
         <div className="flex items-center justify-center gap-2">
-          <h4>Show</h4>
+          <h4>タイプ:</h4>
           <select
             className="px-4 h-10 flex items-center gap-2 px-4 border border-lightGray shadow-md rounded-md"
             onChange={(e) => {
               setActionType(e.target.value);
             }}
           >
-            <option value="">All</option>
-            <option value="INTENT_EXPRESSION">Intent expression</option>
-            <option value="EASY_JAPANESE_MODE">Easy Japanese mode</option>
-            <option value="TRANSLATION">Translation</option>
+            <option value="">全て</option>
+            <option value="INTENT_EXPRESSION">意図の表現</option>
+            <option value="EASY_JAPANESE_MODE">簡単な日本語モード</option>
+            <option value="TRANSLATION">翻訳</option>
           </select>
-          <h4>history within</h4>
+          <h4>時間範囲:</h4>
           <select
             className="px-4 w-18 h-10 flex items-center gap-2 px-4 border border-lightGray shadow-md rounded-md"
             onChange={(e) => {
               setTimeRange(e.target.value);
             }}
           >
-            <option value={0}>All</option>
-            <option value={1}>Last 1 day</option>
-            <option value={3}>Last 3 days</option>
-            <option value={7}>Last 7 days</option>
+            <option value={0}>全て</option>
+            <option value={1}>最後の1日</option>
+            <option value={3}>最後の3日間</option>
+            <option value={7}>最後の7日間</option>
           </select>
         </div>
 
@@ -160,12 +160,12 @@ const History = () => {
             className="px-4 h-10 flex items-center px-4 bg-red text-white shadow-md rounded-md hover:bg-darkRed disabled:bg-disabled"
             onClick={deleteAll}
           >
-            <BsTrashFill /> &nbsp;Remove all
+            <BsTrashFill /> &nbsp;すべてを削除する
           </button>
         </div>
 
         <div className="w-full flex flex-col items-center gap-4">
-          {historyItems.length > 0 ? historyItems : <h1>No item found.</h1>}
+          {historyItems.length > 0 ? historyItems : <h1>アイテムが見つかりませんでした。</h1>}
         </div>
       </div>
     </div>

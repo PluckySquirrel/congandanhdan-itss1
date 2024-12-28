@@ -67,16 +67,16 @@ const Settings = () => {
   return (
     <div className='h-full py-4 flex items-center justify-center'>
       <form className='w-1/2 flex flex-col items-center justify-center gap-8' onSubmit={submit}>
-        <h3 className='text-3xl leading-7'>Settings</h3>
+        <h3 className='text-3xl leading-7'>設定</h3>
         <div className='w-2/3 flex items-center gap-2'>
           <div className='w-36 text-start text-lg'>
-            Username
+            ユーザー名
           </div>
           <input 
             type="text" 
             name="username" 
             id="username" 
-            placeholder="Username"
+            placeholder="ユーザー名"
             className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
             defaultValue={inputs.username || ''}
             onChange={(e) => handleChange(e)}
@@ -85,13 +85,13 @@ const Settings = () => {
         </div>
         <div className='w-2/3 flex items-center gap-2'>
           <div className='w-36 text-start text-lg'>
-            Name
+            名前
           </div>
           <input 
             type="text" 
             name="name" 
             id="name" 
-            placeholder="Name"
+            placeholder="名前"
             className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
             defaultValue={inputs.name || ''}
             onChange={(e) => handleChange(e)}
@@ -100,13 +100,13 @@ const Settings = () => {
         </div>
         <div className='w-2/3 flex items-center gap-2'>
           <div className='w-36 text-start text-lg'>
-            E-mail
+            メールアドレス
           </div>
           <input 
             type="email" 
             name="email" 
             id="email" 
-            placeholder="E-mail"
+            placeholder="メールアドレス"
             className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
             defaultValue={inputs.email || ''}
             onChange={(e) => handleChange(e)}
@@ -118,11 +118,11 @@ const Settings = () => {
           type='submit'
           disabled={loading || !changed}
         >
-          Save changes
+          変更を保存する
         </button>
         {showDialog && 
         <Dialog
-          message='Changes saved'
+          message='変更が保存されました'
           showDialog={showDialog}
           setShowDialog={setShowDialog}
         />}

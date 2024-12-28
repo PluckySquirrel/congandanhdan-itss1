@@ -6,6 +6,7 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showDialog, setShowDialog] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const handleChange = (event) => {
     setInput(event.target.value)
@@ -24,7 +25,8 @@ const ForgotPassword = () => {
     const data = await response.json();
     setLoading(false);
     if (response.ok) {
-      setShowDialog(true);
+      // setShowDialog(true);
+      setSent(true);
     }
 
     if (!response.ok) {
@@ -36,26 +38,26 @@ const ForgotPassword = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-4xl'>Forgot password</h3>
+        <h3 className='text-4xl'>パスワードを忘れた</h3>
       </div>
       <input 
         type="email" 
         name="email" 
         id="email" 
-        placeholder="E-mail"
+        placeholder="メールアドレス"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={input}
         onChange={(e) => handleChange(e)}
         required
       />
       {error !== '' && <div className='text-lg text-error'>{error}</div>}
-      <button 
+      {!sent ? <button 
         className='px-6 h-12 flex items-center bg-blue text-white text-lg shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled'
         type='submit'
         disabled={loading}
       >
-        Send password reset e-mail
-      </button>
+        パスワードリセットメールを送信する
+      </button> : <div className='text-lg text-success'>パスワードリセットメールを送信しました</div>}
       {showDialog && 
         <Dialog
           message='Password reset e-mail sent'

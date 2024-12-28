@@ -31,25 +31,25 @@ const NavbarMenu = (props) => {
         className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-lightGray' 
         href='/settings'
       >
-        Settings
+        設定
       </a>
       <a 
         className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-lightGray' 
         href='/history'
       >
-        History
+        履歴
       </a>
       <a 
         className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-lightGray' 
         href='/saved'
       >
-        Saved history
+        保存履歴
       </a>
       <button 
         className='w-full px-4 text-start py-2 h-full text-lg hover:cursor-pointer hover:bg-lightGray' 
         onClick={handleLogout}
       >
-        Logout
+        ログアウト
       </button>
     </div>
   )

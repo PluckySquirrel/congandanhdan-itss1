@@ -69,7 +69,7 @@ const Home = () => {
     if (!response.ok) {
       const message = `An error has occured: ${response.status} - ${data.message}`;
       console.error(message);
-      window.alert("There was some error.");
+      window.alert("エラーが発生しました");
       return false;
     }
     return true;
@@ -77,7 +77,7 @@ const Home = () => {
 
   const getEasyJapanese = async () => {
     setOutputLanguage("ja");
-    setOutput("Loading...");
+    setOutput("ローディング...");
     const response = await fetch("http://localhost:8080/api/v1/easy-japanese", {
       method: "POST",
       headers: {
@@ -97,7 +97,7 @@ const Home = () => {
 
   const getIntent = async () => {
     setOutputLanguage("ja");
-    setOutput("Loading...");
+    setOutput("ローディング...");
     const response = await fetch(
       "http://localhost:8080/api/v1/express-intent",
       {
@@ -120,7 +120,7 @@ const Home = () => {
 
   const getTranslation = async () => {
     const text = output;
-    setOutput("Loading...");
+    setOutput("ローディング...");
     const response = await fetch("http://localhost:8080/api/v1/translate", {
       method: "POST",
       headers: {
@@ -162,13 +162,13 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center py-4">
-      <h1 className="text-3xl">Input</h1>
+      <h1 className="text-3xl">入力</h1>
       <div className="relative w-1/2 h-44 my-4 border border-lightGray shadow-md rounded-md ">
         <textarea
           name="input"
           id="input"
           className="w-full h-32 p-4 outline-none resize-none"
-          placeholder="Enter something..."
+          placeholder="何かを入力してください"
           value={input}
           onChange={(e) => handleInputChange(e)}
         />
@@ -187,7 +187,7 @@ const Home = () => {
         <div className="w-6 h-6 flex items-center justify-center rounded-full bg-red text-white">
           <BsMicFill />
         </div>
-        {listening ? "Listening..." : "Voice input"}
+        {listening ? "聞いている中..." : "音声入力"}
       </button>
       <div className="w-1/2 my-4 flex items-center justify-center gap-4">
         <button
@@ -195,32 +195,32 @@ const Home = () => {
           onClick={() => getEasyJapanese()}
           disabled={input === ""}
         >
-          Easy Japanese mode
+          簡単な日本語モード
         </button>
         <button
           className="px-4 h-10 flex items-center gap-2 px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled"
           onClick={() => getIntent()}
           disabled={input === ""}
         >
-          Express intent
+          意図を表現する
         </button>
-        or
+        または
         <select
           className="px-4 h-10 flex items-center gap-2 px-4 border border-lightGray shadow-md rounded-md"
           onChange={(e) => handleLanguageChange(e)}
         >
-          <option value="VIETNAMESE">Tiếng Việt</option>
-          <option value="ENGLISH">English</option>
+          <option value="VIETNAMESE">ベトナム語</option>
+          <option value="ENGLISH">英語</option>
         </select>
         <button
           className="px-4 h-10 flex items-center gap-2 px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled"
           onClick={() => getTranslation()}
-          disabled={output === "" || output == "Loading..."}
+          disabled={output === "" || output == "ローディング..."}
         >
-          Translate
+          翻訳する
         </button>
       </div>
-      <h1 className="text-3xl">Output</h1>
+      <h1 className="text-3xl">出力</h1>
       <div className="relative w-1/2 h-44 p-4 my-4 border border-lightGray shadow-md rounded-md">
         <p
           className={`w-full h-32 text-wrap text-left ${
@@ -229,7 +229,7 @@ const Home = () => {
         >
           {output !== ""
             ? output
-            : "The output intent expression or translation is displayed here..."}
+            : "出力された意図の表現または翻訳がここに表示されます"}
         </p>
         <button
           className="absolute bottom-2 left-4 text-gray hover:text-darkGray"
@@ -240,11 +240,11 @@ const Home = () => {
         <div className="absolute bottom-4 right-4 flex gap-4 text-gray">
           <CopyButton
             output={output}
-            disabled={output === "" || output == "Loading..."}
+            disabled={output === "" || output == "ローディング..."}
           />
           <button
             className="hover:text-darkGray"
-            disabled={output === "" || output == "Loading..."}
+            disabled={output === "" || output == "ローディング..."}
             onClick={() => toggleLike(uuid)}
           >
             {liked ? (
@@ -257,7 +257,7 @@ const Home = () => {
             output={output}
             setOutput={setOutput}
             uuid={uuid}
-            disabled={output === "" || output == "Loading..."}
+            disabled={output === "" || output == "ローディング..."}
           />
         </div>
       </div>

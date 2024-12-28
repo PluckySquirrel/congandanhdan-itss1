@@ -27,7 +27,7 @@ const Saved = () => {
   const deleteAll = async () => {
     if (
       window.confirm(
-        "Are you sure you want to delete all items in your saved history?"
+        "保存履歴のすべてのアイテムを削除してもよろしいですか？"
       )
     ) {
       const response = await fetch(`http://localhost:8080/api/v1/saved`, {
@@ -71,7 +71,7 @@ const Saved = () => {
   return (
     <div className="h-full py-4 flex items-start justify-center">
       <div className="w-1/2 flex flex-col items-center justify-center gap-8">
-        <h3 className="text-3xl leading-7">Saved history</h3>
+        <h3 className="text-3xl leading-7">保存歴史</h3>
         <div className="w-2/3 flex items-center justify-center gap-2">
           <div className="relative w-full flex items-center pl-2 border border-lightGray rounded-md shadow-md">
             <div className="text-gray">
@@ -81,7 +81,7 @@ const Saved = () => {
               type="search"
               name="search"
               id="search"
-              placeholder="Search history by keywords"
+              placeholder="キーワードで検索する"
               className="w-full p-2 bg-transparent outline-none"
               value={input}
               onChange={(e) => handleChange(e)}
@@ -90,10 +90,10 @@ const Saved = () => {
           </div>
 
           <button
-            className="px-4 h-10 flex items-center px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled"
+            className="px-4 h-10 w-20 flex items-center justify-center px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled"
             onClick={fetchSaved}
           >
-            Search
+            検索
           </button>
         </div>
         <div className="w-full flex items-center justify-end gap-2">
@@ -101,11 +101,11 @@ const Saved = () => {
             className="px-4 h-10 flex items-center px-4 bg-red text-white shadow-md rounded-md hover:bg-darkRed disabled:bg-disabled"
             onClick={deleteAll}
           >
-            <BsTrashFill /> &nbsp;Remove all
+            <BsTrashFill /> &nbsp;すべてを削除する
           </button>
         </div>
         <div className="w-full flex flex-col items-center gap-4">
-          {savedItems.length > 0 ? savedItems : <p>No saved items.</p>}
+          {savedItems.length > 0 ? savedItems : <p>保存されたアイテムはありません。</p>}
         </div>
       </div>
     </div>

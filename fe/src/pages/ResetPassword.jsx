@@ -41,13 +41,13 @@ const ResetPassword = () => {
   return (
     <form className='h-full flex flex-col items-center justify-center gap-4' onSubmit={submit}>
       <div className='flex gap-2'>
-        <h3 className='text-4xl'>Reset password</h3>
+        <h3 className='text-4xl'>パスワードをリセット</h3>
       </div>
       <input 
         type="password" 
         name="password" 
         id="password" 
-        placeholder="New password"
+        placeholder="新しいパスワード"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.password || ''}
         onChange={(e) => handleChange(e)}
@@ -57,7 +57,7 @@ const ResetPassword = () => {
         type="password" 
         name="confirmPassword" 
         id="confirmPassword" 
-        placeholder="Confirm new password"
+        placeholder="新しいパスワードを再入力"
         className="w-96 p-3 text-lg bg-transparent border border-lightGray rounded-md shadow-md"
         value={inputs.confirmPassword || ''}
         onChange={(e) => handleChange(e)}
@@ -69,7 +69,7 @@ const ResetPassword = () => {
         type='submit'
         disabled={loading}
       >
-        Reset password
+        パスワードをリセットする
       </button>
     </form>
   )

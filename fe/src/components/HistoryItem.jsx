@@ -36,7 +36,7 @@ const HistoryItem = (props) => {
   };
 
   const deleteItem = async (uuid) => {
-    if (window.confirm("Are you sure you want to delete this item?")) {
+    if (window.confirm("このアイテムを削除してもよろしいですか？")) {
       const response = await fetch(
         `http://localhost:8080/api/v1/history/${uuid}`,
         {

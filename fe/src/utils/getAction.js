@@ -1,11 +1,11 @@
 export default function getAction(action) {
   switch (action) {
     case 'TRANSLATION':
-      return 'Translation';
+      return '翻訳';
     case 'INTENT_EXPRESSION':
-      return 'Intent expression';
+      return '意図の表現';
     case 'EASY_JAPANESE_MODE':
-      return 'Easy Japanese';
+      return '簡単な日本語モード';
     default:
       return '';
   }
