@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BsSearch } from "react-icons/bs";
+import { BsSearch, BsTrashFill } from "react-icons/bs";
 import HistoryItem from "../components/HistoryItem";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +50,24 @@ const History = () => {
     setHistory(data.content);
   };
 
+  const deleteAll = async () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete all items in your history?"
+      )
+    ) {
+      const response = await fetch(`http://localhost:8080/api/v1/history`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        }
+      });
+      if (response.ok) {
+        fetchHistory();
+      }
+    }
+  };
+
   useEffect(() => {
     if (cookies.token) {
       fetchHistory();
@@ -73,6 +91,7 @@ const History = () => {
       targetLanguage={item.targetLanguage}
       liked={item.liked}
       timestamp={item.timestamp}
+      fetchHistory={fetchHistory}
     />
   ));
 
@@ -136,8 +155,17 @@ const History = () => {
           </select>
         </div>
 
+        <div className="w-full flex items-center justify-end gap-2">
+          <button
+            className="px-4 h-10 flex items-center px-4 bg-red text-white shadow-md rounded-md hover:bg-darkRed disabled:bg-disabled"
+            onClick={deleteAll}
+          >
+            <BsTrashFill /> &nbsp;Remove all
+          </button>
+        </div>
+
         <div className="w-full flex flex-col items-center gap-4">
-          {historyItems}
+          {historyItems.length > 0 ? historyItems : <h1>No item found.</h1>}
         </div>
       </div>
     </div>
