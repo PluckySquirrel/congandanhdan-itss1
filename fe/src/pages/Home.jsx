@@ -240,11 +240,11 @@ const Home = () => {
         <div className="absolute bottom-4 right-4 flex gap-4 text-gray">
           <CopyButton
             output={output}
-            disabled={output === "" || output == "ローディング..."}
+            disabled={!cookies.token || output === "" || output == "ローディング..."}
           />
           <button
             className="hover:text-darkGray"
-            disabled={output === "" || output == "ローディング..."}
+            disabled={!cookies.token || output === "" || output == "ローディング..."}
             onClick={() => toggleLike(uuid)}
           >
             {liked ? (
@@ -257,7 +257,7 @@ const Home = () => {
             output={output}
             setOutput={setOutput}
             uuid={uuid}
-            disabled={output === "" || output == "ローディング..."}
+            disabled={!cookies.token || output === "" || output == "ローディング..."}
           />
         </div>
       </div>

@@ -30,7 +30,7 @@ const History = () => {
     }
     if (timeRange > 0) {
       let date = new Date();
-      date.setDate(date.getDate() - timeRange);
+      date.setDate(date.getDate() - (timeRange-1));
       params += `&from=${formatDate(date)}`;
     }
     return params;
