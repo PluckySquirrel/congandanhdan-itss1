@@ -26,4 +26,10 @@ public class SavedResultController {
     public ResponseEntity<DeleteSavedResultsResponse> deleteSavedResults() {
         return ResponseEntity.ok(savedResultService.deleteSavedResults());
     }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteSavedResult(@PathVariable String uuid) {
+        savedResultService.deleteSavedResult(uuid);
+        return ResponseEntity.ok(null);
+    }
 }

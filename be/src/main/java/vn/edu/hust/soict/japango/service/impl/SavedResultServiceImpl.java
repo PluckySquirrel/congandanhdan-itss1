@@ -9,6 +9,7 @@ import vn.edu.hust.soict.japango.common.utils.SecurityUtils;
 import vn.edu.hust.soict.japango.dto.history.DeleteHistoryResponse;
 import vn.edu.hust.soict.japango.dto.saved_result.DeleteSavedResultsResponse;
 import vn.edu.hust.soict.japango.dto.saved_result.SavedResultDTO;
+import vn.edu.hust.soict.japango.entity.SavedResult;
 import vn.edu.hust.soict.japango.exception.CustomExceptions;
 import vn.edu.hust.soict.japango.repository.SavedResultRepository;
 import vn.edu.hust.soict.japango.service.SavedResultService;
@@ -42,5 +43,13 @@ public class SavedResultServiceImpl implements SavedResultService {
         }
         long count = savedResultRepository.deleteAllByUserId(userId);
         return DeleteSavedResultsResponse.builder().numberDeleted(count).build();
+    }
+
+    @Override
+    public void deleteSavedResult(String uuid) {
+        SavedResult savedResult = savedResultRepository.findByUuid(uuid)
+                .orElseThrow(() -> CustomExceptions.SAVED_ITEM_NOT_EXISTS_EXCEPTION);
+
+        savedResultRepository.delete(savedResult);
     }
 }

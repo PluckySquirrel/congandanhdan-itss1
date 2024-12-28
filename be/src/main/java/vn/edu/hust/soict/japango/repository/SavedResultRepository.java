@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.edu.hust.soict.japango.common.enums.SaveType;
 import vn.edu.hust.soict.japango.entity.SavedResult;
 
+import java.util.Optional;
+
 @Repository
 public interface SavedResultRepository extends JpaRepository<SavedResult, Long> {
     boolean existsByHistoryUuidAndSaveType(String uuid, SaveType saveType);
@@ -22,4 +24,6 @@ public interface SavedResultRepository extends JpaRepository<SavedResult, Long> 
     @Modifying
     @Transactional
     long deleteAllByUserId(Long userId);
+
+    Optional<SavedResult> findByUuid(String uuid);
 }

@@ -7,4 +7,5 @@ import vn.edu.hust.soict.japango.dto.saved_result.SavedResultDTO;
 public interface SavedResultService {
     Page<SavedResultDTO> getSavedResults(int page, int size);
     DeleteSavedResultsResponse deleteSavedResults();
+    void deleteSavedResult(String uuid);
 }
