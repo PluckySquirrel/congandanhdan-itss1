@@ -47,6 +47,7 @@ const EditButton = (props) => {
       <button 
         className='hover:text-darkGray'
         onClick={() => setShow(true)}
+        disabled={props.disabled}
       >
         <BsPencilFill size='1.6rem' />
       </button>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsFillStarFill, BsHandThumbsUp, BsHandThumbsUpFill, BsVolumeUpFill } from 'react-icons/bs';
 import getAction from '../utils/getAction';
 import getLanguage from '../utils/getLanguage';
@@ -7,12 +7,26 @@ import getOutputLanguageTag from '../utils/getOutputLanguageTag';
 
 const HistoryItem = (props) => {
   const {action, input, output, sourceLanguage, targetLanguage, timestamp} = props;
+  const [liked, setLiked] = useState(props.liked);
 
   const suaGauGau = (phrase, language='ja') => {
     const utterance = new SpeechSynthesisUtterance(phrase);
     utterance.lang = language;
     speechSynthesis.speak(utterance);
   }
+
+  const toggleLike = async (uuid) => {
+    let action = liked ? "unlike" : "like";
+    const response = await fetch(
+      `http://localhost:8080/api/v1/history/${uuid}/${action}`,
+      {
+        method: "POST"
+      }
+    );
+    if (response.ok) {
+      setLiked(!liked);
+    }
+  };
 
   return (
     <div className='relative w-full p-6 flex flex-col gap-2 items-start rounded-md shadow-md'>
@@ -40,18 +54,10 @@ const HistoryItem = (props) => {
       </div>
       <button 
         className='absolute bottom-6 right-6 text-blue hover:text-darkBlue'
-        onClick={() => {}}
+        onClick={() => {toggleLike(props.uuid)}}
       >
-        <BsHandThumbsUpFill size='1.6rem' />
+        {liked ? <BsHandThumbsUpFill size='1.6rem' /> : <BsHandThumbsUp size='1.6rem' />}
       </button>
-      
-      {/* chua like thi dung cai nay 
-      <button 
-        className='absolute bottom-6 right-6 text-blue hover:text-darkBlue'
-        onClick={() => {}}
-      >
-        <BsHandThumbsUp size='1.6rem' />
-      </button> */}
     </div>
   )
 }

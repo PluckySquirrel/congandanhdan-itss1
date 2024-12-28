@@ -13,6 +13,7 @@ const CopyButton = (props) => {
           navigator.clipboard.writeText(props.output)
           setShowDialog(true);
         }}
+        disabled={props.disabled}
       >
         <BsCopy size='1.6rem' />
       </button>

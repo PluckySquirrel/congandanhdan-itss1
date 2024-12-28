@@ -37,11 +37,13 @@ const History = () => {
   const historyItems = history.map((item) =>
     <HistoryItem
       key={item.uuid}
+      uuid={item.uuid}
       action={item.action}
       input={item.input}
       output={item.output}
       sourceLanguage={item.sourceLanguage}
       targetLanguage={item.targetLanguage}
+      liked={item.liked}
       timestamp={item.timestamp}
     />
   );
