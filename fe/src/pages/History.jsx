@@ -3,6 +3,7 @@ import { BsSearch, BsTrashFill } from "react-icons/bs";
 import HistoryItem from "../components/HistoryItem";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { ConfirmDialog } from "../components/ConfirmDialog";
 
 const History = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const History = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [actionType, setActionType] = useState("");
   const [timeRange, setTimeRange] = useState(0);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -30,7 +32,7 @@ const History = () => {
     }
     if (timeRange > 0) {
       let date = new Date();
-      date.setDate(date.getDate() - (timeRange-1));
+      date.setDate(date.getDate() - (timeRange - 1));
       params += `&from=${formatDate(date)}`;
     }
     return params;
@@ -51,20 +53,14 @@ const History = () => {
   };
 
   const deleteAll = async () => {
-    if (
-      window.confirm(
-        "履歴のすべてのアイテムを削除してもよろしいですか？"
-      )
-    ) {
-      const response = await fetch(`http://localhost:8080/api/v1/history`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        }
-      });
-      if (response.ok) {
-        fetchHistory();
-      }
+    const response = await fetch(`http://localhost:8080/api/v1/history`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    });
+    if (response.ok) {
+      fetchHistory();
     }
   };
 
@@ -158,16 +154,29 @@ const History = () => {
         <div className="w-full flex items-center justify-end gap-2">
           <button
             className="px-4 h-10 flex items-center px-4 bg-red text-white shadow-md rounded-md hover:bg-darkRed disabled:bg-disabled"
-            onClick={deleteAll}
+            onClick={() => setOpenConfirm(true)}
           >
             <BsTrashFill /> &nbsp;すべてを削除する
           </button>
         </div>
 
         <div className="w-full flex flex-col items-center gap-4">
-          {historyItems.length > 0 ? historyItems : <h1>アイテムが見つかりませんでした。</h1>}
+          {historyItems.length > 0 ? (
+            historyItems
+          ) : (
+            <h1>アイテムが見つかりませんでした。</h1>
+          )}
         </div>
       </div>
+      {openConfirm && (
+        <ConfirmDialog
+          open={openConfirm}
+          setOpen={setOpenConfirm}
+          title={"削除を確認"}
+          content={"履歴のすべてのアイテムを削除してもよろしいですか？"}
+          handleConfirm={deleteAll}
+        />
+      )}
     </div>
   );
 };

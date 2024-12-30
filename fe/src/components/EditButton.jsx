@@ -5,10 +5,11 @@ import Dialog from './Dialog';
 const EditButton = (props) => {
   const [show, setShow] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(props.output);
   const ref = useRef(null);
 
   useEffect(() => {
+    setInput(props.output);
     document.addEventListener('click', handleClickOutside, true);
     return () => {
         document.removeEventListener('click', handleClickOutside, true);

@@ -3,12 +3,14 @@ import { BsSearch, BsTrashFill } from "react-icons/bs";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import SavedItem from "../components/SavedItem";
+import { ConfirmDialog } from "../components/ConfirmDialog";
 
 const Saved = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [savedList, setSavedList] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const fetchSaved = async () => {
     const response = await fetch(
@@ -25,20 +27,14 @@ const Saved = () => {
   };
 
   const deleteAll = async () => {
-    if (
-      window.confirm(
-        "保存履歴のすべてのアイテムを削除してもよろしいですか？"
-      )
-    ) {
-      const response = await fetch(`http://localhost:8080/api/v1/saved`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      });
-      if (response.ok) {
-        fetchSaved();
-      }
+    const response = await fetch(`http://localhost:8080/api/v1/saved`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    });
+    if (response.ok) {
+      fetchSaved();
     }
   };
 
@@ -99,15 +95,28 @@ const Saved = () => {
         <div className="w-full flex items-center justify-end gap-2">
           <button
             className="px-4 h-10 flex items-center px-4 bg-red text-white shadow-md rounded-md hover:bg-darkRed disabled:bg-disabled"
-            onClick={deleteAll}
+            onClick={() => setOpenConfirm(true)}
           >
             <BsTrashFill /> &nbsp;すべてを削除する
           </button>
         </div>
         <div className="w-full flex flex-col items-center gap-4">
-          {savedItems.length > 0 ? savedItems : <p>保存されたアイテムはありません。</p>}
+          {savedItems.length > 0 ? (
+            savedItems
+          ) : (
+            <p>保存されたアイテムはありません。</p>
+          )}
         </div>
       </div>
+      {openConfirm && (
+        <ConfirmDialog
+          open={openConfirm}
+          setOpen={setOpenConfirm}
+          title={"削除を確認"}
+          content={"保存履歴のすべてのアイテムを削除してもよろしいですか？"}
+          handleConfirm={deleteAll}
+        />
+      )}
     </div>
   );
 };

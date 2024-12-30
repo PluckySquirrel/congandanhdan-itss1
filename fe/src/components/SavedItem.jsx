@@ -10,11 +10,13 @@ import getAction from "../utils/getAction";
 import getLanguage from "../utils/getLanguage";
 import getDate from "../utils/getDate";
 import getOutputLanguageTag from "../utils/getOutputLanguageTag";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 const SavedItem = (props) => {
   const { action, input, output, sourceLanguage, targetLanguage, timestamp } =
     props;
   const [liked, setLiked] = useState(props.liked);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const suaGauGau = (phrase, language = "ja") => {
     const utterance = new SpeechSynthesisUtterance(phrase);
@@ -23,16 +25,11 @@ const SavedItem = (props) => {
   };
 
   const deleteItem = async (uuid) => {
-    if (window.confirm("Are you sure you want to delete this item?")) {
-      const response = await fetch(
-        `http://localhost:8080/api/v1/saved/${uuid}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (response.ok) {
-        props.fetchSaved();
-      }
+    const response = await fetch(`http://localhost:8080/api/v1/saved/${uuid}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      props.fetchSaved();
     }
   };
 
@@ -65,16 +62,25 @@ const SavedItem = (props) => {
         </button>
         <h3 className="text-lg text-blue text-left">{output}</h3>
       </div>
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-end gap-5">
         <button
           className="text-red hover:text-darkRed"
           onClick={() => {
-            deleteItem(props.uuid);
+            setOpenConfirm(true);
           }}
         >
           <BsTrash size="1.6rem" />
         </button>
       </div>
+      {openConfirm && (
+        <ConfirmDialog
+          open={openConfirm}
+          setOpen={setOpenConfirm}
+          title={"削除を確認"}
+          content={"このアイテムを削除してもよろしいですか？"}
+          handleConfirm={() => deleteItem(props.uuid)}
+        />
+      )}
     </div>
   );
 };
