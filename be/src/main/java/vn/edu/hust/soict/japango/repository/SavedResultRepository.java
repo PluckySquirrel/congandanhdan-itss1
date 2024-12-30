@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.edu.hust.soict.japango.common.enums.SaveType;
 import vn.edu.hust.soict.japango.entity.SavedResult;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -34,4 +35,6 @@ public interface SavedResultRepository extends JpaRepository<SavedResult, Long> 
             "OR LOWER(s.output) LIKE CONCAT('%', LOWER(:keyword), '%')) " +
             "ORDER BY s.createdAt DESC")
     Page<SavedResult> findByUserIdAndKeyword(Long userId, String keyword, Pageable pageable);
+
+    List<SavedResult> findByUserId(Long userId);
 }
