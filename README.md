@@ -26,7 +26,7 @@ If Docker is not installed, please install it from [Docker's official website](h
 
 Navigate to the `be/` directory:
 ```bash
-cd ../be
+cd be
 ```
 Start the back-end services using Docker Compose:
 ```bash
@@ -36,7 +36,7 @@ The back-end will be available at [http://localhost:8080](http://localhost:8080)
 ### 3. Run the Front-end
 Navigate to the `fe/` directory:
 ```bash
-cd fe
+cd ../fe
 ```
 Install dependencies:
 ```bash
