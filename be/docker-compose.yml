@@ -23,6 +23,7 @@ services:
       - japango_app_network
     environment:
       SPRING_PROFILES_ACTIVE: docker
+    restart: on-failure
 
 volumes:
   mysql_data:
