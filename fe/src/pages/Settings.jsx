@@ -18,6 +18,7 @@ const Settings = (props) => {
   const decoded = jwtDecode(cookies.token);
 
   const fetchUser = async () => {
+    if (!cookies.token) return;
     const response = await fetch(
       `http://localhost:8080/api/v1/users/${decoded.uuid}`,
       {

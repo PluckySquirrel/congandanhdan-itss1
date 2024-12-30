@@ -14,6 +14,7 @@ const Navbar = (props) => {
   }
 
   const fetchUser = async () => {
+    if (!cookies.token) return;
     const decoded = jwtDecode(cookies.token);
     const response = await fetch(
       `http://localhost:8080/api/v1/users/${decoded.uuid}`,
