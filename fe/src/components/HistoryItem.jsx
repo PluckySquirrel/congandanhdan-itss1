@@ -63,7 +63,9 @@ const HistoryItem = (props) => {
         <p className="text-gray">{getDate(timestamp)}</p>
       </div>
       <div className="flex items-start gap-2">
-        <button onClick={() => suaGauGau(input, getOutputLanguageTag(sourceLanguage))}>
+        <button
+          onClick={() => suaGauGau(input, getOutputLanguageTag(sourceLanguage))}
+        >
           <BsVolumeUpFill size="1.5rem" />
         </button>
         <h2 className="text-xl font-bold text-left">{input}</h2>
@@ -78,26 +80,28 @@ const HistoryItem = (props) => {
         </button>
         <h3 className="text-lg text-blue text-left">{output}</h3>
       </div>
-      <button
-        className="absolute bottom-6 right-16 text-blue hover:text-darkBlue"
-        onClick={() => {
-          toggleLike(props.uuid);
-        }}
-      >
-        {liked ? (
-          <BsHandThumbsUpFill size="1.6rem" />
-        ) : (
-          <BsHandThumbsUp size="1.6rem" />
-        )}
-      </button>
-      <button
-        className="absolute bottom-6 right-6 text-red hover:text-darkRed"
-        onClick={() => {
-          deleteItem(props.uuid);
-        }}
-      >
-        <BsTrash size="1.6rem" />
-      </button>
+      <div className="w-full flex justify-end gap-2">
+        <button
+          className="text-blue hover:text-darkBlue"
+          onClick={() => {
+            toggleLike(props.uuid);
+          }}
+        >
+          {liked ? (
+            <BsHandThumbsUpFill size="1.6rem" />
+          ) : (
+            <BsHandThumbsUp size="1.6rem" />
+          )}
+        </button>
+        <button
+          className="text-red hover:text-darkRed"
+          onClick={() => {
+            deleteItem(props.uuid);
+          }}
+        >
+          <BsTrash size="1.6rem" />
+        </button>
+      </div>
     </div>
   );
 };

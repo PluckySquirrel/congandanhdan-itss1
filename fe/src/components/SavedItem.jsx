@@ -65,14 +65,16 @@ const SavedItem = (props) => {
         </button>
         <h3 className="text-lg text-blue text-left">{output}</h3>
       </div>
-      <button
-        className="absolute bottom-6 right-6 text-red hover:text-darkRed"
-        onClick={() => {
-          deleteItem(props.uuid);
-        }}
-      >
-        <BsTrash size="1.6rem" />
-      </button>
+      <div className="w-full flex justify-end">
+        <button
+          className="text-red hover:text-darkRed"
+          onClick={() => {
+            deleteItem(props.uuid);
+          }}
+        >
+          <BsTrash size="1.6rem" />
+        </button>
+      </div>
     </div>
   );
 };
