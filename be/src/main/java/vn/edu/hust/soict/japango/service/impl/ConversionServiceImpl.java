@@ -33,7 +33,7 @@ public class ConversionServiceImpl implements ConversionService {
 //                また、%s、それ以外の文であってもその感じで書き直してください。言い換えた文の一つだけを書いて、他のことは書かないでください。N3以下のレベルの簡単な言葉を使ってください。
 //                """
         String text = """
-                Please rephrase the following sentence as long as possible so that the speaker's intent or desire becomes as clear as possible: '%s'
+                Please rephrase the following Japanese sentences into other Japanese sentences AS LONG AS POSSIBLE so that the speaker's intent or desire becomes as clear as possible (like what they want next, what they expect and why, ...): '%s'
                 If the sentence is '締め切りは金曜日なので、終わったら知らせてください' rephrase it as '締め切りは金曜日ですが、私はできるだけ早く課題を確認し、フィードバックを提供したいと考えています。そのため、課題が終わり次第、すぐにご連絡いただけるとありがたいです。'
                 %s
                 If the sentence is not of the above cases, also rewrite it in the same manner. Write only the rephrased sentence and do not include anything else. Use simple words that are at or below the N3 level 
@@ -83,13 +83,13 @@ public class ConversionServiceImpl implements ConversionService {
 //        sentences.forEach((key, value) -> sb
 //                .append("「").append(key).append("」")
 //                .append("という文だったら")
-//                .append("「").append(key).append("」")
+//                .append("「").append(value).append("」")
 //                .append("を出力して、\n"));
         sentences.forEach((key, value) -> sb
                 .append("If the sentence is ")
                 .append("「").append(key).append("」")
                 .append(" rephrase it as ")
-                .append("「").append(key).append("」")
+                .append("「").append(value).append("」")
                 .append("\n"));
 
         return sb.toString();
