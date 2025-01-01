@@ -96,6 +96,26 @@ const Home = () => {
     }
   };
 
+  const getEasyJapaneseForOutput = async () => {
+    setOutputLanguage("ja");
+    setOutput("ローディング...");
+    const response = await fetch("http://localhost:8080/api/v1/easy-japanese", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: cookies.token ? `Bearer ${cookies.token}` : null,
+      },
+      body: JSON.stringify({ input: output }),
+    });
+    const data = await response.json();
+
+    if (checkResponse(response, data)) {
+      setOutput(data.output);
+      setUuid(data.uuid);
+      setLiked(false);
+    }
+  };
+
   const getIntent = async () => {
     setOutputLanguage("ja");
     setOutput("ローディング...");
@@ -221,6 +241,13 @@ const Home = () => {
           disabled={output === "" || output == "ローディング..."}
         >
           翻訳する
+        </button>
+        <button
+          className="px-4 h-10 flex items-center gap-2 px-4 bg-blue text-white shadow-md rounded-md hover:bg-darkBlue disabled:bg-disabled"
+          onClick={() => getEasyJapaneseForOutput()}
+          disabled={output === "" || output == "ローディング..."}
+        >
+          簡単な日本語モード
         </button>
       </div>
       <h1 className="text-3xl">出力</h1>
